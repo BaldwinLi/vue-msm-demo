@@ -1,0 +1,16 @@
+.modal-header {
+	padding-top: 5px;
+	padding-bottom: 0px;
+}
+
+.modal-header h4 {
+	font-size: 16px;
+}
+
+.modal-dialog {
+	margin: 5px auto;
+}
+
+.dataTables_wrapper .row:first-child {
+	padding-bottom: 0px;
+}
