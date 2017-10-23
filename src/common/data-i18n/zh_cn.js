@@ -429,6 +429,7 @@ export default {
   "refresh": "刷新",
   "copy": "拷贝",
   "export_excl": "导出Excl",
+  "export_pdf": "导出PDF",
   "print": "打印",
   "approve": "评审",
   "rollback": "退回",
@@ -442,5 +443,10 @@ export default {
   "please_select_assign_to": "请选择指派人员",
   "transfer_title": "转移评审",
   "current_approvement_user": "当前评审人",
-  "assign_to": "指派人"
+  "assign_to": "指派人",
+  "copied_to_clipboard": "已复制到剪切板!",
+  "click_copy_to_clipboard": "点击复制到剪切板",
+  "copied_failed": "复制失败",
+  "alert_enter_account_pwd": "请输入用户名和密码",
+  "not_available": "不可用"
 }

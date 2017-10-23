@@ -1,6 +1,6 @@
 <template>
     <el-row style="height: 100%;">
-        <div  style="height: 100%;" class="main-container login-layout" :class="{'light-login': light, 'blur-login': blur}">
+        <div style="height: 100%;" class="main-container login-layout" :class="{'light-login': light, 'blur-login': blur}">
             <div class="main-content">
                 <div class="row">
                     <div class="col-sm-10 col-sm-offset-1">
@@ -51,9 +51,9 @@
                                                             <i class="ace-icon fa fa-key"></i>
                                                             <span class="bigger-110" v-i18n="'login_submit'"></span>
                                                         </button>
-                                                        <select id="en_zh" style="position: absolute;right: 0;top: 0;height: 35px;">
-                                                            <option>中文</option>
-                                                            <option>English</option>
+                                                        <select v-model="langValue" style="position: absolute;right: 0;top: 0;height: 35px;" @change="langChange">
+                                                            <option value="ZH_CN">中文</option>
+                                                            <option value="EN">English</option>
                                                         </select>
                                                     </div>
 
@@ -257,6 +257,7 @@ export default {
             pwd: '',
             loginInfo: '',
             startLoading: false,
+            langValue: sessionStorage.getItem('locale') || 'ZH_CN',
             i18n: Lang()
         }
     },
@@ -267,8 +268,8 @@ export default {
     },
     methods: {
         ...mapMutations([
-             'setUser',
-             'setDept'
+            'setUser',
+            'setDept'
         ]),
         showLogin() {
             this.login = true;
@@ -294,11 +295,15 @@ export default {
             this.light = true;
             this.dark = this.blur = false;
         },
-        mounted () {
-            sessionStorage.clear();
+        mounted() {
+            sessionStorage.removeItem('user');
         },
         doLogin() {
             const scope = this;
+            if (!this.account || !this.pwd) {
+                this.loginInfo = this.i18n['alert_enter_account_pwd'];
+                return;
+            }
             this.loginInfo = this.i18n["login-waiting"];
             this.startLoading = true;
             this.$http.post(`${this.appContextPath}sysman/User/login.serv`, {
@@ -313,14 +318,14 @@ export default {
                             scope.loginInfo = scope.i18n["login-success"];
                             scope.setUser(success.data.bo);
                             scope.setDept(success.data.other);
-                            setTimeout(()=>{
+                            setTimeout(() => {
                                 scope.$router.push({ name: 'home' });
                             })
                         } else {
                             scope.loginInfo = scope.i18n["login-fail"] + success.data.code.msg;
                         }
                     } catch (e) {
-                        scope.loginInfo = scope.i18n["login-fail"] +', ' + scope.i18n["system-error"];
+                        scope.loginInfo = scope.i18n["login-fail"] + ', ' + scope.i18n["system-error"];
                     }
 
                 },
@@ -329,6 +334,10 @@ export default {
                     scope.loginInfo = scope.i18n["login-fail"];
                 }
                 );
+        },
+        langChange() {
+            sessionStorage.setItem('locale', this.langValue);
+            window.location.reload();
         }
     }
 }

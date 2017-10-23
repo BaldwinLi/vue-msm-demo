@@ -80,27 +80,23 @@
         </el-row>
         <el-row>
             <el-col :span="24">
-                <zte-data-table :columns="columns" :data="data" :start-loading="startLoading" :current-page="currentPage" :total-count="totalCount" :page-size="pageSize" :page-sizes="[5]" @pageChange="changePage">
+                <zte-data-table :title="tableTitle" :columns="columns" :data="data" :start-loading="startLoading" :current-page="currentPage" :total-count="totalCount" :page-size="pageSize" :page-sizes="[5]" @pageChange="changePage">
                 </zte-data-table>
             </el-col>
         </el-row>
 
-        <el-dialog ref="rollbackDialog"
-        :title="i18n['rollback_title']" 
-        :visible.sync="rollbackDialogVisible">
+        <el-dialog ref="rollbackDialog" :title="i18n['rollback_title']" :visible.sync="rollbackDialogVisible">
             <roll-back-dialog :params="dialogParams" :visible.sync="rollbackDialogVisible" :close="rollbackDialogClose"></roll-back-dialog>
         </el-dialog>
 
-        <el-dialog ref="transferDialog"
-        :title="i18n['transfer_title']" 
-        :visible.sync="transferDialogVisible">
+        <el-dialog ref="transferDialog" :title="i18n['transfer_title']" :visible.sync="transferDialogVisible">
             <transfer-dialog :params="dialogParams" :visible.sync="transferDialogVisible" :close="transferDialogClose"></transfer-dialog>
         </el-dialog>
     </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import zteDataTable from '@/common/components/datatable';
 import rollBackDialog from './dialog/rollback'
 import transferDialog from './dialog/transfer'
@@ -117,6 +113,7 @@ export default {
     data() {
         return {
             startLoading: false,
+            tableTitle: Lang()['form_review_manage'],
             pageSize: 5,
             totalCount: 0,
             currentPage: 1,
@@ -148,10 +145,8 @@ export default {
     computed: {
         ...mapGetters([
             'appContextPath',
-            'isLocal'
-        ]),
-        ...mapState([
-            'userInfo'
+            'isLocal',
+            'loginUser'
         ])
     },
     methods: {
@@ -188,7 +183,7 @@ export default {
                 {
                     "bo": {
                         ...this.myreviewmanForm,
-                        "userId": this.userInfo.id
+                        "userId": this.loginUser.id
                     },
                     "sort": "", "order": "desc", "page": page
                 },
@@ -209,9 +204,9 @@ export default {
         },
         rollbackDialogClose(str) {
             this.rollbackDialogVisible = false;
-            if(str === 'success') {
-                 this.refreshReviewList(this.currentPage, this.pageSize);
-                 this.$message({
+            if (str === 'success') {
+                this.refreshReviewList(this.currentPage, this.pageSize);
+                this.$message({
                     message: this.i18n['operate_success'],
                     type: 'success'
                 });
@@ -219,9 +214,9 @@ export default {
         },
         transferDialogClose(str) {
             this.transferDialogVisible = false;
-            if(str === 'success') {
-                 this.refreshReviewList(this.currentPage, this.pageSize);
-                 this.$message({
+            if (str === 'success') {
+                this.refreshReviewList(this.currentPage, this.pageSize);
+                this.$message({
                     message: this.i18n['operate_success'],
                     type: 'success'
                 });
@@ -276,7 +271,7 @@ export default {
             },
             {
                 label: i18n['form_operate'],
-                width: '380',
+                width: '430',
                 type: 'operation',
                 groups: [
                     {
@@ -309,7 +304,7 @@ export default {
                         color: 'success',
                         label: i18n['transfer'],
                         icon: 'iconfont alibaba-skip',
-                        on:((row) => {
+                        on: ((row) => {
                             this.dialogParams = {
                                 processId: row.processId || "",
                                 signReviewFlowNo: row.signReviewFlowNo || "",
@@ -324,9 +319,27 @@ export default {
                         color: 'success',
                         icon: 'iconfont alibaba-process',
                         label: i18n['rate_of_progress'],
-                        on(row) {
-                            alert(row);
-                        }
+                        on: ((row) => {
+                            debugger
+                            const loading = this.$loading({
+                                fullscreen: true,
+                                text: this.i18n['hard_loading']
+                            });
+                            this.$http.post(`${this.appContextPath}myreviewman/MyReviewMan/getSchedule.serv`,
+                                {
+                                    processId: row.processId,
+                                    userId: this.loginUser.account
+                                }
+                            ).then(
+                                success => {
+                                    if (success.data.bo) {
+                                        window.open(success.data.bo);
+                                    }
+                                    loading.close();
+                                },
+                                error =>  loading.close()
+                            );
+                        }).bind(this)
                     }
                 ]
             }

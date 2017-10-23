@@ -1,21 +1,33 @@
 <template>
     <div style="height: 100%; width: 100%;">
-        <el-button-group style="float: right;">
-            <el-button :disabled="startLoading" type="primary" @click="refreshTable">
-                <i v-if="startLoading" class="el-icon-loading"></i>
-                <i v-if="!startLoading" class="iconfont alibaba-refresh"></i>
-                {{i18n['refresh']}}
-            </el-button>
-            <el-button type="primary">
-                <i class="iconfont alibaba-copy">&nbsp</i>{{i18n['copy']}}
-            </el-button>
-            <el-button type="primary">
-                <i class="iconfont alibaba-exl">&nbsp</i>{{i18n['export_excl']}}
-            </el-button>
-            <el-button type="primary">
-                <i class="iconfont alibaba-print">&nbsp</i>{{i18n['print']}}
-            </el-button>
-        </el-button-group>
+        <el-menu theme="dark" style="height: 5.5rem" class="el-menu-demo" mode="horizontal">
+            <div class="pull-left">
+                <p class="navbar-brand" style="color:#fff">
+                    {{title}}
+                </p>
+            </div>
+            <el-button-group style="float: right;margin:1rem">
+                <el-button v-if="buttonGroup.refresh" :disabled="startLoading" type="primary" @click="refreshTable">
+                    <i v-if="startLoading" class="el-icon-loading"></i>
+                    <i v-if="!startLoading" class="iconfont alibaba-refresh"></i>
+                    {{i18n['refresh']}}
+                </el-button>
+                <el-tooltip v-if="buttonGroup.copy" :content="copyTooltipContent" placement="bottom" hide-after="2000">
+                    <el-button type="primary" @click="copy" @mouseleave.native="tooltipReset">
+                        <i class="iconfont alibaba-copy">&nbsp</i>{{i18n['copy']}}
+                    </el-button>
+                </el-tooltip>
+                <el-button v-if="buttonGroup.excl" type="primary" @click="exportCVS">
+                    <i class="iconfont alibaba-exl">&nbsp</i>{{i18n['export_excl']}}
+                </el-button>
+                <el-button v-if="buttonGroup.pdf" type="primary" @click="exportPDF">
+                    <i class="iconfont alibaba-pdf">&nbsp</i>{{i18n['export_pdf']}}
+                </el-button>
+                <el-button v-if="buttonGroup.print" type="primary" @click="printData">
+                    <i class="iconfont alibaba-print">&nbsp</i>{{i18n['print']}}
+                </el-button>
+            </el-button-group>
+        </el-menu>
         <el-table :data="rows" border v-loading="startLoading" :element-loading-text="i18n['hard_loading']" style="width: 100%" :row-class-name="tableRowClassName">
             <el-table-column header-align="center" v-for="(column, index) in columns" :key="index.toString()" :prop="getColumnProp(column)" :label="column.label" :width="column.width">
                 <template scope="scope">
@@ -46,6 +58,7 @@
 <script>
 import { Lang } from '@/common/data-i18n/initI18n';
 import { lookup } from '@/common/filters/filters';
+import { copyToClipboard, exportCSVFile, exportPDFFile, printTableData } from '@/common/components/utils';
 
 export default {
     name: 'zte-data-table',
@@ -54,10 +67,15 @@ export default {
             rows: [],
             page: 1,
             size: 5,
-            i18n: Lang()
+            i18n: Lang(),
+            copyTooltipContent: Lang()['click_copy_to_clipboard']
         }
     },
     props: {
+        title: {
+            type: String,
+            default: ''
+        },
         columns: {
             type: Array,
             default() {
@@ -68,6 +86,16 @@ export default {
             type: Array,
             default() {
                 return [];
+            }
+        },
+        buttonGroup:{
+            type:Object,
+            default: {
+                refresh: true,
+                copy: true,
+                excl: true,
+                pdf: false,
+                print: true
             }
         },
         startLoading: {
@@ -114,7 +142,7 @@ export default {
         currentPage(newPage) {
             this.page = newPage;
         },
-        pageSize(newSize){
+        pageSize(newSize) {
             this.size = newSize;
         }
     },
@@ -153,6 +181,41 @@ export default {
         },
         refreshTable() {
             this.refreshTableData(this.currentPage, this.pageSize, true)
+        },
+        copy(event) {
+            copyToClipboard(event, {
+                header: this.columns,
+                body: this.data
+            }, (result) => {
+                this.copyTooltipContent = this.i18n[result];
+            })
+        },
+        exportCVS(event){
+            exportCSVFile(event, {
+                header: this.columns,
+                body: this.data
+            }, (result) => {
+                this.$message.error(this.i18n[result]);
+            })
+        },
+        exportPDF(){
+            exportPDFFile(event, {
+                header: this.columns,
+                body: this.data
+            }, (result) => {
+                this.$message.error(this.i18n[result]);
+            })
+        },
+        printData(event){
+            printTableData(event, {
+                header: this.columns,
+                body: this.data
+            });
+        },
+        tooltipReset() {
+            setTimeout(() => {
+                this.copyTooltipContent = this.i18n['click_copy_to_clipboard'];
+            }, 2000);
         }
     },
     mounted() { }

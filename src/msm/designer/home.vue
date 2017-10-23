@@ -137,12 +137,15 @@ export default {
       'userInfo'
     ])
   },
-  mounted() {
-    const scope = this;
+  created(){
     if (!sessionStorage.getItem('user')) {
       this.$router.push({ name: 'login' });
-      return;
+      this.$destroy();
     }
+  },
+  mounted() {
+    const scope = this;
+    if(this._isDestroyed) return;
     for (let i in this.langList) {
       if (sessionStorage.getItem('locale') === this.langList[i].id) {
         this.langText = this.langList[i].value;
