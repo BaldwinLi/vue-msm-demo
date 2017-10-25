@@ -21,3 +21,39 @@ export const APPROVE_TYPE = [{
     value: i18n['specialcon']
   },
 ]
+
+export const REVIEW_STATUS = [
+  {
+    id: '00',
+    value: i18n['draft']
+  },
+  {
+    id: '01',
+    value: i18n['isreview']
+  },
+  {
+    id: '05',
+    value: i18n['isover']
+  },
+  {
+    id: '03',
+    value: i18n['ispause']
+  },
+  {
+    id: '06',
+    value: i18n['backdraft']
+  },
+  {
+    id: '07',
+    value: i18n['retreatdraft']
+  }
+]
+
+export const REVIEW_RESULT = [{
+  id: '00',
+  value: i18n['pass']
+},
+{
+  id: '01',
+  value: i18n['nopass']
+}]

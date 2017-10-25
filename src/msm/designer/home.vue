@@ -56,7 +56,7 @@
             <i class="menu-icon glyphicon glyphicon-home"></i> {{i18n["home_page"]}}</span>
           <notice-show></notice-show>
         </el-tab-pane>
-        <el-tab-pane v-for="(item, index) in tabPages" :key="item.id" :name="(index+1).toString()" closable>
+        <el-tab-pane v-for="(item, index) in tabPages" :key="item.id" :name="item.id" closable>
           <span slot="label">
             <i class="menu-icon" :class="item.icon.split(' ')"></i> {{item.text}}
           </span>
@@ -65,6 +65,9 @@
           </div>
           <div v-else-if="item.id==='4'">
             <review-list></review-list>
+          </div>
+          <div v-else-if="item.id==='12'">
+            <proreview-list></proreview-list>
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -76,6 +79,7 @@
 import noticeShow from './tabPages/noticeshow/noticeshow';
 import createReview from './tabPages/createreview/createreview';
 import reviewList from './tabPages/myreviewmanlist/myreviewmanlist';
+import proreviewList from './tabPages/myproreview/myproreviewlist';
 import { Lang } from '@/common/data-i18n/initI18n';
 import { mapState, mapGetters } from 'vuex';
 
@@ -84,7 +88,8 @@ export default {
   components: { 
     noticeShow,
     createReview,
-    reviewList
+    reviewList,
+    proreviewList
   },
   data() {
     return {
@@ -109,13 +114,15 @@ export default {
   methods: {
     addTab(tab) {
       let isOpend = this.tabPages.some(e => tab.id === e.id);
-      if (!isOpend) {
-        this.tabPages.push(tab);
-        this.tabPageIndex = this.tabPages.length.toString();
-      }
+        !isOpend && this.tabPages.push(tab);
+        this.tabPageIndex = tab.id;
     },
     removeTab(tab) {
-      this.tabPages.splice(parseInt(tab) - 1, 1);
+      for (let i in this.tabPages){
+        if(this.tabPages[i].id === tab) {
+          this.tabPages.splice(parseInt(i), 1);
+        }
+      }
     },
     handleCommand(command) {
       if (command === 'logout') {

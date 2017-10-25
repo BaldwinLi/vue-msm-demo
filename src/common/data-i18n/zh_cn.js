@@ -448,5 +448,19 @@ export default {
   "click_copy_to_clipboard": "点击复制到剪切板",
   "copied_failed": "复制失败",
   "alert_enter_account_pwd": "请输入用户名和密码",
-  "not_available": "不可用"
+  "not_available": "不可用",
+  "myreview_manage": "我的评审",
+  "draft": "草稿",
+  "isreview": "评审中",
+  "isover": "已结束",
+  "ispause": "暂停中",
+  "backdraft": "回退草稿",
+  "retreatdraft": "回撤草稿",
+  "pass": "通过",
+  "nopass": "不通过",
+  "edit": "修改",
+  "delete": "删除",
+  "confirm_delete": "是否确认删除该记录?",
+  "reminder": "提示",
+  "delete_success": "删除成功！"
 }

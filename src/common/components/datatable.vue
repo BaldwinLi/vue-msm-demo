@@ -34,13 +34,13 @@
                     <el-button v-if="column.type==='hyperlink'" @click.native.prevent="column.on.click(scope.row)" type="text" size="small">
                         {{scope.row[column.id]}}
                     </el-button>
-                    <el-tag v-if="column.type==='tag'" type="primary" close-transition>
+                    <el-tag v-if="column.type==='tag' && !!trimStr(scope.row[column.id])" type="primary" close-transition>
                         <i v-if="!column.filter">{{scope.row[column.id]}}</i>
                         <i v-if="column.filter.func==='lookup'">{{scope.row[column.id] | lookup(...column.filter.params)}}</i>
                     </el-tag>
                     <el-row v-if="column.type==='operation'">
                         <el-col>
-                            <el-button v-for="(elem, index) in column.groups" :type="elem.color" :key="index.toString()" size="small" @click="elem.on(scope.row)">
+                            <el-button v-for="(elem, index) in column.groups" v-if="elem.isShow ? elem.isShow(scope.row) : true" :type="elem.color" :key="index.toString()" size="small" @click="elem.on(scope.row)">
                                 <i v-if="elem.icon" :class="elem.icon">&nbsp</i>
                                 {{elem.label}}
                             </el-button>
@@ -88,14 +88,16 @@ export default {
                 return [];
             }
         },
-        buttonGroup:{
-            type:Object,
-            default: {
-                refresh: true,
-                copy: true,
-                excl: true,
-                pdf: false,
-                print: true
+        buttonGroup: {
+            type: Object,
+            default() {
+                return {
+                    refresh: true,
+                    copy: true,
+                    excl: true,
+                    pdf: false,
+                    print: true
+                };
             }
         },
         startLoading: {
@@ -149,7 +151,7 @@ export default {
     computed: {
         tableRowClassName(row, index) {
             return row.class || '';
-        }
+        },
     },
     methods: {
         getColumnProp(column) {
@@ -190,7 +192,7 @@ export default {
                 this.copyTooltipContent = this.i18n[result];
             })
         },
-        exportCVS(event){
+        exportCVS(event) {
             exportCSVFile(event, {
                 header: this.columns,
                 body: this.data
@@ -198,7 +200,7 @@ export default {
                 this.$message.error(this.i18n[result]);
             })
         },
-        exportPDF(){
+        exportPDF() {
             exportPDFFile(event, {
                 header: this.columns,
                 body: this.data
@@ -206,7 +208,7 @@ export default {
                 this.$message.error(this.i18n[result]);
             })
         },
-        printData(event){
+        printData(event) {
             printTableData(event, {
                 header: this.columns,
                 body: this.data
@@ -216,6 +218,13 @@ export default {
             setTimeout(() => {
                 this.copyTooltipContent = this.i18n['click_copy_to_clipboard'];
             }, 2000);
+        },
+        trimStr(str) {
+            if(!!str&&str!==0)  return _.trim(str);
+            else {
+                if(str === 0) return 0;
+                else return '';
+            }
         }
     },
     mounted() { }

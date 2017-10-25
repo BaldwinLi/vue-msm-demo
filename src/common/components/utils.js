@@ -1,3 +1,5 @@
+import { lookup } from '@/common/filters/filters'
+
 const _saveAs = (function (view) {
   // IE <10 is explicitly unsupported
   if (typeof navigator !== "undefined" && /MSIE [1-9]\./.test(navigator.userAgent)) {
@@ -268,7 +270,13 @@ const formatExportData = (data) => {
     body: data.body.map(v => {
       let arr = [];
       data.header.forEach(e => {
-        (e.type !== 'operation') && arr.push(v[e.id]);
+        if(e.type !== 'operation') {
+          if(!!e.filter) {
+            arr.push(lookup(v[e.id], ...e.filter['params'] ));
+          }else {
+            arr.push(v[e.id]||'');
+          }
+        }
       })
       return arr;
     }),
@@ -288,7 +296,13 @@ const _exportData = (dt, config = {
   data.body = dt.body.map(v => {
     let arr = [];
     dt.header.forEach(e => {
-      (e.type !== 'operation') && arr.push(v[e.id]);
+      if(e.type !== 'operation') {
+        if(!!e.filter) {
+          arr.push(lookup(v[e.id], ...e.filter['params'] ));
+        }else {
+          arr.push(v[e.id]||'');
+        }
+      }
     })
     return arr;
   });

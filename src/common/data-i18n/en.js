@@ -447,5 +447,19 @@ export default {
     "copied_to_clipboard": "has copied to clipboard!",
     "click_copy_to_clipboard": "click it to copy to clipboard",
     "alert_enter_account_pwd": "Please enter username and password",
-    "not_available": "Not Available"
+    "not_available": "Not Available",
+    "myreview_manage": "My Review",
+    "draft": "draft",
+    "isreview": "review",
+    "isover": "over",
+    "ispause": "pause",
+    "backdraft": "back draft",
+    "retreatdraft": "retreat draft",
+    "pass": "pass",
+    "nopass": "no pass",
+    "edit": "edit",
+    "delete": "delete",
+    "confirm_delete": "Are you sure to delete this record?",
+    "reminder": "Reminder",
+    "delete_success": "Delete successfully!"
 }
