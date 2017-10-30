@@ -2,42 +2,49 @@
     <div style="height: 100%; width: 100%;">
         <el-row>
             <el-col :span="24">
-                <el-form :model="myreviewmanForm" label-position="left" ref="myreviewmanForm" label-width="10rem" class="demo-form-inline">
+                <el-form :model="mypendingForm" label-position="left" ref="mypendingForm" label-width="10rem" class="demo-form-inline">
                     <el-row :gutter="10">
+                        <el-col :span="6">
+                            <el-form-item :label="i18n['form_project_number']" prop="projectNo">
+                                <el-col :span="20">
+                                    <el-input v-model="mypendingForm.projectNo"></el-input>
+                                </el-col>
+                            </el-form-item>
+                        </el-col>
                         <el-col :span="6">
                             <el-form-item :label="i18n['form_review_process_number']" prop="signReviewFlowNo">
                                 <el-col :span="20">
-                                    <el-input v-model="myreviewmanForm.signReviewFlowNo"></el-input>
+                                    <el-input v-model="mypendingForm.signReviewFlowNo"></el-input>
                                 </el-col>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item :label="i18n['form_contract_number']" prop="contractTextNo">
                                 <el-col :span="20">
-                                    <el-input v-model="myreviewmanForm.contractTextNo"></el-input>
+                                    <el-input v-model="mypendingForm.contractTextNo"></el-input>
                                 </el-col>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item :label="i18n['form_business_department']" prop="busiDepart">
                                 <el-col :span="20">
-                                    <el-input v-model="myreviewmanForm.busiDepart"></el-input>
-                                </el-col>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item :label="i18n['form_project_name']" prop="projectName">
-                                <el-col :span="20">
-                                    <el-input v-model="myreviewmanForm.projectName"></el-input>
+                                    <el-input v-model="mypendingForm.busiDepart"></el-input>
                                 </el-col>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row :gutter="10">
                         <el-col :span="6">
+                            <el-form-item :label="i18n['form_project_name']" prop="projectName">
+                                <el-col :span="20">
+                                    <el-input v-model="mypendingForm.projectName"></el-input>
+                                </el-col>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
                             <el-form-item :label="i18n['form_review_type']" prop="approveType">
                                 <el-col :span="20">
-                                    <el-select v-model="myreviewmanForm.approveType" :placeholder="i18n['please_select']">
+                                    <el-select v-model="mypendingForm.approveType" :placeholder="i18n['please_select']">
                                         <el-option :label="i18n['please_select']" value=""></el-option>
                                         <el-option v-for="(item, index) in approveTypes" :key="index" :label="item.value" :value="item.id"></el-option>
                                     </el-select>
@@ -45,16 +52,9 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item :label="i18n['form_final_cust_name']" prop="finalcustNm">
-                                <el-col :span="20">
-                                    <el-input v-model="myreviewmanForm.finalcustNm"></el-input>
-                                </el-col>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
                             <el-form-item :label="i18n['form_search_type']" prop="templateCode">
                                 <el-col :span="20">
-                                    <el-select v-model="myreviewmanForm.templateCode" :placeholder="i18n['please_select']">
+                                    <el-select v-model="mypendingForm.templateCode" :placeholder="i18n['please_select']">
                                         <el-option :label="i18n['please_select']" value=""></el-option>
                                         <el-option v-for="(item, index) in templates" :key="index" :label="item.templateName" :value="item.templateCode"></el-option>
                                     </el-select>
@@ -64,12 +64,12 @@
                     </el-row>
                     <el-row>
                         <el-form-item style="float:right;">
-                            <el-button :disabled="startLoading" type="primary" @click="refreshReviewList(currentPage, pageSize)">
+                            <el-button :disabled="startLoading" type="primary" @click="refreshMyPendingList(currentPage, pageSize)">
                                 <i v-if="startLoading" class="el-icon-loading"></i>
                                 <i v-if="!startLoading" class="el-icon-search"></i>
                                 {{i18n['form_query']}}
                             </el-button>
-                            <el-button @click="onReset('myreviewmanForm')">
+                            <el-button @click="onReset('mypendingForm')">
                                 <i class="iconfont alibaba-refresh"></i>
                                 {{i18n['reset']}}
                             </el-button>
@@ -104,7 +104,7 @@ import { APPROVE_TYPE } from '@/common/dataModel';
 import { Lang } from '@/common/data-i18n/initI18n';
 const i18n = Lang();
 export default {
-    name: 'review-list',
+    name: 'my-pending-list',
     components: {
         zteDataTable,
         rollBackDialog,
@@ -113,19 +113,19 @@ export default {
     data() {
         return {
             startLoading: false,
-            tableTitle: Lang()['form_review_manage'],
+            tableTitle: Lang()['my_pending_reviews'],
             pageSize: 5,
             totalCount: 0,
             currentPage: 1,
             columns: [],
             data: [],
-            myreviewmanForm: {
+            mypendingForm: {
+                projectNo: '',
                 signReviewFlowNo: '',
                 contractTextNo: '',
                 busiDepart: '',
                 projectName: '',
                 approveType: '',
-                finalcustNm: '',
                 templateCode: ''
             },
             i18n,
@@ -151,8 +151,8 @@ export default {
     },
     methods: {
         changePage(page) {
-            if (page) this.refreshReviewList(page.page, page.size);
-            else this.refreshReviewList(this.currentPage, this.pageSize);
+            if (page) this.refreshMyPendingList(page.page, page.size);
+            else this.refreshMyPendingList(this.currentPage, this.pageSize);
         },
         queryDetail(data) {
             const scope = this;
@@ -161,7 +161,17 @@ export default {
                 text: this.i18n['hard_loading']
             });
             this.$http.post(`${this.appContextPath}mypending/MyPending/review.serv`,
-                { "formId": data.formId, "formVersion": data.formVersion, "baseId": data.baseId, "taskId": data.taskId, "processId": data.processId, "reviewWorkFlowNo": data.reviewWorkFlowNo, "approveType": data.approveType, "nodeName": data.nodeName, "reviewStatus": data.reviewStatus },
+                { 
+                    "formId": data.formId, 
+                    "formVersion": data.formVersion, 
+                    "baseId": data.baseId, 
+                    "taskId": data.taskId, 
+                    "processId": data.processId, 
+                    "reviewWorkFlowNo": data.reviewWorkFlowNo, 
+                    "approveType": data.approveType, 
+                    "nodeName": data.nodeName, 
+                    "reviewStatus": data.reviewStatus 
+                },
             ).then(
                 success => {
                     if (success.data && success.data.bo && success.data.bo.htmlPath) {
@@ -176,14 +186,14 @@ export default {
                 error => scope.startLoading = false
                 );
         },
-        refreshReviewList(page, size) {
+        refreshMyPendingList(page, size) {
             const scope = this;
             this.startLoading = true;
-            this.$http.post(`${this.appContextPath}myreviewman/MyReviewMan/getList.serv`,
+            this.$http.post(`${this.appContextPath}mypending/MyPending/getList.serv`,
                 {
                     bo: {
-                        ...this.myreviewmanForm,
-                        userId: this.loginUser.id
+                        ...this.mypendingForm,
+                        userId: this.loginUser.account
                     },
                     sort: "", 
                     order: "desc", 
@@ -208,7 +218,7 @@ export default {
         rollbackDialogClose(str) {
             this.rollbackDialogVisible = false;
             if (str === 'success') {
-                this.refreshReviewList(this.currentPage, this.pageSize);
+                this.refreshMyPendingList(this.currentPage, this.pageSize);
                 this.$message({
                     message: this.i18n['operate_success'],
                     type: 'success'
@@ -218,7 +228,7 @@ export default {
         transferDialogClose(str) {
             this.transferDialogVisible = false;
             if (str === 'success') {
-                this.refreshReviewList(this.currentPage, this.pageSize);
+                this.refreshMyPendingList(this.currentPage, this.pageSize);
                 this.$message({
                     message: this.i18n['operate_success'],
                     type: 'success'
@@ -229,6 +239,14 @@ export default {
     mounted() {
         const scope = this;
         this.columns = [
+            {
+                id: 'projectNo',
+                label: i18n['form_project_number']
+            },
+            {
+                id: 'projectName',
+                label: i18n['form_project_name']
+            },
             {
                 id: 'signReviewFlowNo',
                 label: i18n['form_review_process_number'],
@@ -244,14 +262,6 @@ export default {
                 label: i18n['form_contract_number']
             },
             {
-                id: 'busiDepart',
-                label: i18n['form_business_department']
-            },
-            {
-                id: 'projectName',
-                label: i18n['form_project_name']
-            },
-            {
                 id: 'approveType',
                 label: i18n['form_review_type'],
                 type: 'tag',
@@ -261,8 +271,8 @@ export default {
                 }
             },
             {
-                id: 'finalcustNm',
-                label: i18n['form_final_cust_name']
+                id: 'busiDepart',
+                label: i18n['form_business_department']
             },
             {
                 id: 'nodeName',
@@ -274,13 +284,16 @@ export default {
             },
             {
                 label: i18n['form_operate'],
-                width: '430',
+                width: '380',
                 type: 'operation',
                 groups: [
                     {
                         type: 'button',
                         color: 'success',
                         label: i18n['approve'],
+                        isShow(row) {
+                            return row.reviewStatus !== '03'
+                        },
                         icon: 'el-icon-edit',
                         on(row) {
                             scope.queryDetail(row);
@@ -291,6 +304,9 @@ export default {
                         color: 'success',
                         icon: 'el-icon-d-arrow-left',
                         label: i18n['rollback'],
+                        isShow(row) {
+                            return row.reviewStatus !== '03'
+                        },
                         on: ((row) => {
                             this.dialogParams = {
                                 processId: row.processId || "",
@@ -306,6 +322,9 @@ export default {
                         type: 'button',
                         color: 'success',
                         label: i18n['transfer'],
+                        isShow(row) {
+                            return row.reviewStatus !== '03'
+                        },
                         icon: 'iconfont alibaba-skip',
                         on: ((row) => {
                             this.dialogParams = {
@@ -320,26 +339,56 @@ export default {
                     {
                         type: 'button',
                         color: 'warning',
-                        icon: 'iconfont alibaba-process',
-                        label: i18n['rate_of_progress'],
+                        icon: 'iconfont alibaba-iconfontstop',
+                        label: i18n['pause'],
+                        isShow(row) {
+                            return row.reviewStatus !== '03'
+                        },
                         on: ((row) => {
-                            const loading = this.$loading({
-                                fullscreen: true,
-                                text: this.i18n['hard_loading']
-                            });
-                            this.$http.post(`${this.appContextPath}myreviewman/MyReviewMan/getSchedule.serv`,
+                            scope.startLoading = true;
+                            this.$http.post(`${this.appContextPath}mypending/MyPending/pause.serv`,
                                 {
                                     processId: row.processId,
-                                    userId: this.loginUser.account
+                                    baseId: row.baseId,
+                                    taskId: row.taskId,
+                                    user: this.loginUser
                                 }
                             ).then(
                                 success => {
-                                    if (success.data.bo) {
-                                        window.open(success.data.bo);
+                                    scope.startLoading = false;
+                                    if (success) {
+                                       scope.refreshMyPendingList(scope.currentPage, scope.pageSize);
                                     }
-                                    loading.close();
                                 },
-                                error =>  loading.close()
+                                error =>  scope.startLoading = false
+                            );
+                        }).bind(this)
+                    },
+                    {
+                        type: 'button',
+                        color: 'info',
+                        icon: 'iconfont alibaba-iconfontplay2',
+                        label: i18n['resume'],
+                        isShow(row) {
+                            return row.reviewStatus === '03'
+                        },
+                        on: ((row) => {
+                            scope.startLoading = true;
+                            this.$http.post(`${this.appContextPath}mypending/MyPending/resume.serv`,
+                                {
+                                    processId: row.processId,
+                                    baseId: row.baseId,
+                                    taskId: row.taskId,
+                                    user: this.loginUser
+                                }
+                            ).then(
+                                success => {
+                                    scope.startLoading = false;
+                                    if (success) {
+                                       scope.refreshMyPendingList(scope.currentPage, scope.pageSize);
+                                    }
+                                },
+                                error =>  scope.startLoading = false
                             );
                         }).bind(this)
                     }
@@ -355,7 +404,7 @@ export default {
                     templateCode: v.templateCode,
                     templateName: v.templateName
                 }));
-                scope.refreshReviewList(scope.currentPage, scope.pageSize);
+                scope.refreshMyPendingList(scope.currentPage, scope.pageSize);
             },
             error => scope.startLoading = false
             );

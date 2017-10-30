@@ -7,6 +7,10 @@
                 </p>
             </div>
             <el-button-group style="float: right;margin:1rem">
+                <el-button v-if="buttonGroup.add" type="primary" @click="addRowCallBack">
+                    <i class="el-icon-plus"></i>
+                    {{i18n['form_add']}}
+                </el-button>
                 <el-button v-if="buttonGroup.refresh" :disabled="startLoading" type="primary" @click="refreshTable">
                     <i v-if="startLoading" class="el-icon-loading"></i>
                     <i v-if="!startLoading" class="iconfont alibaba-refresh"></i>
@@ -29,15 +33,21 @@
             </el-button-group>
         </el-menu>
         <el-table :data="rows" border v-loading="startLoading" :element-loading-text="i18n['hard_loading']" style="width: 100%" :row-class-name="tableRowClassName">
-            <el-table-column header-align="center" v-for="(column, index) in columns" :key="index.toString()" :prop="getColumnProp(column)" :label="column.label" :width="column.width">
+            <el-table-column header-align="center" v-for="(column, index) in columns" :key="index.toString()" :prop="getColumnProp(column)" :label="column.label" :width="column.width" :render-header="column.renderHeader">
                 <template scope="scope">
                     <el-button v-if="column.type==='hyperlink'" @click.native.prevent="column.on.click(scope.row)" type="text" size="small">
                         {{scope.row[column.id]}}
                     </el-button>
-                    <el-tag v-if="column.type==='tag' && !!trimStr(scope.row[column.id])" type="primary" close-transition>
+                    <el-tag v-if="column.type==='tag' && !!trimStr(scope.row[column.id])" :type="(column.colorMap &&　column.colorMap[scope.row[column.id]]) || 'primary'" close-transition>
                         <i v-if="!column.filter">{{scope.row[column.id]}}</i>
-                        <i v-if="column.filter.func==='lookup'">{{scope.row[column.id] | lookup(...column.filter.params)}}</i>
+                        <i v-if="column.filter && column.filter.func==='lookup'">{{scope.row[column.id] | lookup(...column.filter.params)}}</i>
                     </el-tag>
+                    <el-switch v-if="column.type==='switch'" 
+                    v-model="scope.row[column.id]" 
+                    :on-value="column.valueMap && column.valueMap['onValue']"
+                    :off-value="column.valueMap && column.valueMap['offValue']"
+                    @change="column.on['change'](scope.row)"
+                    ></el-switch>
                     <el-row v-if="column.type==='operation'">
                         <el-col>
                             <el-button v-for="(elem, index) in column.groups" v-if="elem.isShow ? elem.isShow(scope.row) : true" :type="elem.color" :key="index.toString()" size="small" @click="elem.on(scope.row)">
@@ -46,7 +56,7 @@
                             </el-button>
                         </el-col>
                     </el-row>
-                    <i v-if="!column.type">{{scope.row[column.id]}}</i>
+                    <i v-if="!column.type" :class="column.icon||''">{{scope.row[column.id]}}</i>
                 </template>
             </el-table-column>
         </el-table>
@@ -92,6 +102,7 @@ export default {
             type: Object,
             default() {
                 return {
+                    add: false,
                     refresh: true,
                     copy: true,
                     excl: true,
@@ -126,6 +137,12 @@ export default {
                 return [5, 10, 20, 30, 40, 50];
             }
         },
+        addRowCallBack: {
+            type: Function,
+            default() {
+                window.Vue.prototype.$alert(Lang()['func_not_assign']);
+            }
+        },
         refreshCallback: {
             type: Function,
             default() {
@@ -138,7 +155,7 @@ export default {
     },
     watch: {
         data(newData) {
-            if (this.staticPagination) this.refreshTableData(this.currentPage, this.pagePize);
+            if (this.staticPagination) this.refreshTableData(this.currentPage, this.pageSize);
             else this.rows = newData || [];
         },
         currentPage(newPage) {
@@ -178,8 +195,8 @@ export default {
             });
         },
         refreshTableData(page, size, refresh) {
-            if (refresh) this.$emit('pageChange');
-            else this.rows = this.config.data.slice((page - 1) * size, (page - 1) * size + size);
+            if (refresh) this.$emit('pageChange')
+            else　this.rows = this.data.slice((page - 1) * size, (page - 1) * size + size)
         },
         refreshTable() {
             this.refreshTableData(this.currentPage, this.pageSize, true)
@@ -227,6 +244,8 @@ export default {
             }
         }
     },
-    mounted() { }
+    mounted() {
+        this.size = this.pageSize;
+     }
 }
 </script>

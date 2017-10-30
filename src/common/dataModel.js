@@ -57,3 +57,22 @@ export const REVIEW_RESULT = [{
   id: '01',
   value: i18n['nopass']
 }]
+
+export const FUNCTION_TYPE = [
+  {
+    id: '0',
+    value: i18n['business_menu']
+  },
+  {
+    id: '1',
+    value: i18n['system_menu']
+  },
+  {
+    id: '2',
+    value: i18n['service']
+  },
+  {
+    id: '3',
+    value: i18n['func_btn']
+  }
+]

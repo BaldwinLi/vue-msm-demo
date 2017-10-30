@@ -13,7 +13,7 @@ export default new Vuex.Store({
     userInfo: userInfo || {
       account: '',
       createdBy: 0,
-      createdDate:'',
+      createdDate: '',
       effectiveDate: '',
       email: '',
       enableFlag: '',
@@ -33,7 +33,27 @@ export default new Vuex.Store({
       ZTELonginUserDeptId: '',
       ZTELonginUserDeptName: '',
       ZTEFormSecretRole: ''
-    }
+    },
+    userOrg: [{
+      id: 0,
+      parentId: 0,
+      parentDictCode: null,
+      dictCode: '',
+      dictName: '',
+      dictValue: 0,
+      viewLevel: null,
+      levelName: null,
+      orderBy: null,
+      effectiveDate: null,
+      expirationDate: null,
+      remark: null,
+      createdBy: null,
+      createdDate: null,
+      lastUpdatedBy: null,
+      lastUpdatedDate: null,
+      enableFlag: '',
+      orgId: 0
+    }]
   },
   mutations: {
     setUser(state, user) {
@@ -42,14 +62,18 @@ export default new Vuex.Store({
       initHttp(user);
     },
     setDept(state, dept) {
-      sessionStorage.setItem('dept', JSON.stringify(dept))
       state.userDept = dept;
+    },
+    setOrg(state, orgList) {
+      state.userOrg = orgList;
     }
   },
   getters: {
     isLocal: () => (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? true : false,
     appContextPath: () => ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? true : false) ? `${window.location.origin}/dev_api/` : (window.location.origin + '/'),
     appConsts: () => appConsts,
-    loginUser: (state) => (state.userInfo)
+    loginUser: (state) => (state.userInfo),
+    loginUserDept: (state) => (state.userDept),
+    loginUserOrgList: (state)=>(state.userOrg)
   }
 });

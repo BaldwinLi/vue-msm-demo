@@ -43,7 +43,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { Lang } from '@/common/data-i18n/initI18n';
-import userSelect from '@/common/components/userselect';
+import userSelect from '@/common/components/userselect/userselect';
 
 export default {
     name: 'transfer-dialog',
@@ -115,7 +115,6 @@ export default {
     methods: {
         onSubmit() {
             const scope = this;
-            scope.startLoading = true;
             this.$refs['transferForm'].validate((valid) => {
                 if (valid) {
                     scope.startLoading = true;

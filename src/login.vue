@@ -343,6 +343,7 @@ export default {
 }
 </script>
 
+<style src="@/skins/css/ace.css" scoped></style>
 <style scoped>
 h1,
 h2 {

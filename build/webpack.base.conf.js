@@ -4,6 +4,7 @@ var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 var glob = require('glob');
 var entries = getEntry(['./src/msm/**/*.js']); // 获得入口js文件
+var webpack = require("webpack")
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -25,9 +26,17 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src'),
+      '@': resolve('src')
     }
   },
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin('common.js'),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      _: 'lodash'
+    })
+  ],
   module: {
     rules: [{
         test: /\.vue$/,

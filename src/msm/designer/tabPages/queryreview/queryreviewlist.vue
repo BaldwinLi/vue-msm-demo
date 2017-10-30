@@ -2,33 +2,33 @@
     <div style="height: 100%; width: 100%;">
         <el-row>
             <el-col :span="24">
-                <el-form :model="myproreviewForm" label-position="left" ref="myproreviewForm" label-width="10rem" class="demo-form-inline">
+                <el-form :model="queryreviewForm" label-position="left" ref="queryreviewForm" label-width="10rem" class="demo-form-inline">
                     <el-row :gutter="10">
                         <el-col :span="6">
                             <el-form-item :label="i18n['form_review_process_number']" prop="signReviewFlowNo">
                                 <el-col :span="20">
-                                    <el-input v-model="myproreviewForm.signReviewFlowNo"></el-input>
+                                    <el-input v-model="queryreviewForm.signReviewFlowNo"></el-input>
                                 </el-col>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item :label="i18n['form_contract_number']" prop="contractTextNo">
                                 <el-col :span="20">
-                                    <el-input v-model="myproreviewForm.contractTextNo"></el-input>
+                                    <el-input v-model="queryreviewForm.contractTextNo"></el-input>
                                 </el-col>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item :label="i18n['form_business_department']" prop="busiDepart">
                                 <el-col :span="20">
-                                    <el-input v-model="myproreviewForm.busiDepart"></el-input>
+                                    <el-input v-model="queryreviewForm.busiDepart"></el-input>
                                 </el-col>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item :label="i18n['form_project_name']" prop="projectName">
                                 <el-col :span="20">
-                                    <el-input v-model="myproreviewForm.projectName"></el-input>
+                                    <el-input v-model="queryreviewForm.projectName"></el-input>
                                 </el-col>
                             </el-form-item>
                         </el-col>
@@ -37,7 +37,7 @@
                         <el-col :span="6">
                             <el-form-item :label="i18n['form_review_type']" prop="approveType">
                                 <el-col :span="20">
-                                    <el-select v-model="myproreviewForm.approveType" :placeholder="i18n['please_select']">
+                                    <el-select v-model="queryreviewForm.approveType" :placeholder="i18n['please_select']">
                                         <el-option :label="i18n['please_select']" value=""></el-option>
                                         <el-option v-for="(item, index) in approveTypes" :key="index" :label="item.value" :value="item.id"></el-option>
                                     </el-select>
@@ -47,7 +47,7 @@
                         <el-col :span="6">
                             <el-form-item :label="i18n['form_review_status']" prop="reviewStatus">
                                 <el-col :span="20">
-                                    <el-select v-model="myproreviewForm.reviewStatus" :placeholder="i18n['please_select']">
+                                    <el-select v-model="queryreviewForm.reviewStatus" :placeholder="i18n['please_select']">
                                         <el-option :label="i18n['please_select']" value=""></el-option>
                                         <el-option v-for="(item, index) in reviewStatuses" :key="index" :label="item.value" :value="item.id"></el-option>
                                     </el-select>
@@ -55,34 +55,31 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item :label="i18n['form_review_result']" prop="reviewResult">
-                                <el-col :span="20">
-                                    <el-select v-model="myproreviewForm.reviewResult" :placeholder="i18n['please_select']">
-                                        <el-option :label="i18n['please_select']" value=""></el-option>
-                                        <el-option v-for="(item, index) in reviewResults" :key="index" :label="item.value" :value="item.id"></el-option>
-                                    </el-select>
-                                </el-col>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
                             <el-form-item :label="i18n['form_search_type']" prop="templateCode">
                                 <el-col :span="20">
-                                    <el-select v-model="myproreviewForm.templateCode" :placeholder="i18n['please_select']">
+                                    <el-select v-model="queryreviewForm.templateCode" :placeholder="i18n['please_select']">
                                         <el-option :label="i18n['please_select']" value=""></el-option>
                                         <el-option v-for="(item, index) in templates" :key="index" :label="item.templateName" :value="item.templateCode"></el-option>
                                     </el-select>
                                 </el-col>
                             </el-form-item>
                         </el-col>
+                        <el-col :span="6">
+                            <el-form-item :label="i18n['form_customer_po_no']" prop="custpono">
+                                <el-col :span="20">
+                                    <el-input v-model="queryreviewForm.custpono"></el-input>
+                                </el-col>
+                            </el-form-item>
+                        </el-col>
                     </el-row>
                     <el-row>
                         <el-form-item style="float:right;">
-                            <el-button :disabled="startLoading" type="primary" @click="refreshProreviewList(currentPage, pageSize)">
+                            <el-button :disabled="startLoading" type="primary" @click="refreshQueryReviewList(currentPage, pageSize)">
                                 <i v-if="startLoading" class="el-icon-loading"></i>
                                 <i v-if="!startLoading" class="el-icon-search"></i>
                                 {{i18n['form_query']}}
                             </el-button>
-                            <el-button @click="onReset('myproreviewForm')">
+                            <el-button @click="onReset('queryreviewForm')">
                                 <i class="iconfont alibaba-refresh"></i>
                                 {{i18n['reset']}}
                             </el-button>
@@ -107,33 +104,32 @@ import { APPROVE_TYPE, REVIEW_STATUS, REVIEW_RESULT } from '@/common/dataModel';
 import { Lang } from '@/common/data-i18n/initI18n';
 const i18n = Lang();
 export default {
-    name: 'proreview-list',
+    name: 'query-review-list',
     components: {
         zteDataTable
     },
     data() {
         return {
             startLoading: false,
-            tableTitle: Lang()['myreview_manage'],
+            tableTitle: Lang()['query_review'],
             pageSize: 5,
             totalCount: 0,
             currentPage: 1,
             columns: [],
             data: [],
-            myproreviewForm: {
+            queryreviewForm: {
                 signReviewFlowNo: '',
                 contractTextNo: '',
                 busiDepart: '',
                 projectName: '',
-                approveType: '',
+                approveType: '03',
                 reviewStatus: '',
-                reviewResult: '',
+                custpono: '',
                 templateCode: ''
             },
             i18n,
             approveTypes: APPROVE_TYPE,
             reviewStatuses: REVIEW_STATUS,
-            reviewResults: REVIEW_RESULT,
             templates: []
         }
     },
@@ -146,8 +142,8 @@ export default {
     },
     methods: {
         changePage(page) {
-            if (page) this.refreshProreviewList(page.page, page.size);
-            else this.refreshProreviewList(this.currentPage, this.pageSize);
+            if (page) this.refreshQueryReviewList(page.page, page.size);
+            else this.refreshQueryReviewList(this.currentPage, this.pageSize);
         },
         queryDetail(data) {
             const scope = this;
@@ -163,8 +159,7 @@ export default {
                     taskId: data.taskId,
                     processId: data.processId,
                     reviewWorkFlowNo: data.reviewWorkFlowNo,
-                    approveType: data.approveType,
-                    reviewStatus: data.reviewStatus
+                    approveType: data.approveType
                 },
             ).then(
                 success => {
@@ -180,13 +175,13 @@ export default {
                 error => scope.startLoading = false
                 );
         },
-        refreshProreviewList(page, size) {
+        refreshQueryReviewList(page, size) {
             const scope = this;
             this.startLoading = true;
             this.$http.post(`${this.appContextPath}reviewman/MyProReview/getPage.serv`,
                 {
                     bo: {
-                        ...this.myproreviewForm,
+                        ...this.queryreviewForm,
                         userId: this.loginUser.account
                     },
                     rows: size,
@@ -229,7 +224,7 @@ export default {
                             type: 'success',
                             message: scope.i18n['delete_success']
                         });
-                        scope.refreshProreviewList(scope.currentPage, scope.pageSize);
+                        scope.refreshQueryReviewList(scope.currentPage, scope.pageSize);
                     }
                     scope.startLoading = false;
                 }, error => {
@@ -296,7 +291,7 @@ export default {
             },
             {
                 label: i18n['form_operate'],
-                width: '180',
+                width: '230',
                 type: 'operation',
                 groups: [
                     {
@@ -304,9 +299,9 @@ export default {
                         color: 'success',
                         label: i18n['edit'],
                         icon: 'el-icon-edit',
-                        isShow(row) {
-                            return row.reviewStatus === '00'
-                        },
+                        // isShow(row) {
+                        //     return row.reviewStatus === '00'
+                        // },
                         on(row) {
                             scope.queryDetail(row);
                         }
@@ -365,7 +360,7 @@ export default {
                     templateCode: v.templateCode,
                     templateName: v.templateName
                 }));
-                scope.refreshProreviewList(scope.currentPage, scope.pageSize);
+                scope.refreshQueryReviewList(scope.currentPage, scope.pageSize);
             },
             error => scope.startLoading = false
             );

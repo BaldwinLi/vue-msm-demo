@@ -69,6 +69,15 @@
           <div v-else-if="item.id==='12'">
             <proreview-list></proreview-list>
           </div>
+          <div v-else-if="item.id==='13'">
+            <my-pending-list></my-pending-list>
+          </div>
+          <div v-else-if="item.id==='14'">
+            <query-review-list></query-review-list>
+          </div>
+          <div v-else-if="item.id==='8'">
+            <resource-list></resource-list>
+          </div>
         </el-tab-pane>
       </el-tabs>
     </el-row>
@@ -80,8 +89,11 @@ import noticeShow from './tabPages/noticeshow/noticeshow';
 import createReview from './tabPages/createreview/createreview';
 import reviewList from './tabPages/myreviewmanlist/myreviewmanlist';
 import proreviewList from './tabPages/myproreview/myproreviewlist';
+import myPendingList from './tabPages/mypending/mypendinglist';
+import queryReviewList from './tabPages/queryreview/queryreviewlist';
+import resourceList from './tabPages/resource/resourcelist';
 import { Lang } from '@/common/data-i18n/initI18n';
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'home',
@@ -89,7 +101,10 @@ export default {
     noticeShow,
     createReview,
     reviewList,
-    proreviewList
+    proreviewList,
+    myPendingList,
+    queryReviewList,
+    resourceList
   },
   data() {
     return {
@@ -112,6 +127,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      'setOrg'
+    ]),
     addTab(tab) {
       let isOpend = this.tabPages.some(e => tab.id === e.id);
         !isOpend && this.tabPages.push(tab);
@@ -190,6 +208,7 @@ export default {
             success => {
               if (success) {
                 scope.orgList = success.data && success.data.bo;
+                scope.setOrg(scope.orgList);
                 return true;
               }
             },
@@ -205,7 +224,10 @@ export default {
         ).then(
           success => {
             if (success) {
-              scope.menus = success.data.bo.filter((e) => (e.id !== '17' && e.id !== '10903'));
+              scope.menus = success.data.bo.map(v=>{
+                v.menus = v.menus.filter(e=>!['10743'].includes(e.id));
+                return v;
+              }).filter((e) => !['17', '10903'].includes(e.id));
               loading.close();
             }
           },
