@@ -14,17 +14,16 @@
                 </el-col>
             </el-row>
             <el-row :gutter="10">
-                <el-col :span="24">
+                <el-col :span="12">
                     <el-form-item :label="i18n['function_code']" prop="resourceCode" style="float: left;margin-left:1.5rem;">
-                        <el-input v-model="resourceForm.resourceCode" :placeholder="i18n['please_enter_resourceCode']" :style="{width: params.parentMenu && params.parentMenu['id']!=0? '67%': '100%', float: 'left' }">
-                            <template v-if="params.parentMenu && params.parentMenu['id']!=0" slot="prepend">{{params.functionCode}}</template>
+                        <el-input v-model="resourceForm.resourceCode" :maxlength="isNotRootAdd?3:10" :placeholder="i18n['please_enter_resourceCode']" :style="{ width: isNotRootAdd ? '19.5rem' : '100%', float: 'left', position: isNotRootAdd ? 'absolute' : 'relative' }">
+                            <template v-if="isNotRootAdd" slot="prepend">{{params.functionCode}}</template>
                         </el-input>
                     </el-form-item>
                 </el-col>
-                
-            </el-row>
-            <el-row :gutter="10">
-                <el-col :span="24">
+            <!-- </el-row>
+            <el-row :gutter="10"> -->
+                <el-col :span="12">
                     <el-form-item :label="i18n['function_name']" prop="resourceName" style="float: left;margin-left:1.5rem;">
                         <el-input v-model="resourceForm.resourceName" :placeholder="i18n['please_enter_resourceName']"></el-input>
                     </el-form-item>
@@ -45,7 +44,7 @@
             <el-row :gutter="10">
                 <el-col :span="12">
                     <el-form-item :label="i18n['function_type']" prop="resourceType">
-                        <el-select style="width: 20rem;" v-model="resourceForm.resourceType" clearable :placeholder="i18n['please_enter_resourceType']">
+                        <el-select style="width: 20rem;" :disabled="disableResType" v-model="resourceForm.resourceType" clearable :placeholder="i18n['please_enter_resourceType']">
                             <el-option
                                 v-for="item in functionTypes"
                                 :key="item.id"
@@ -98,7 +97,8 @@
                         <i class="iconfont alibaba-save"></i>
                         {{i18n['form_save']}}
                     </el-button>
-                    <el-button @click="onClose" icon="close">
+                    <el-button @click="onClose">
+                        <i class="el-icon-circle-close-outline"></i>
                         {{i18n['form_close']}}
                     </el-button>
                 </el-form-item>
@@ -124,6 +124,8 @@ export default {
         return {
             startLoading: false,
             orgName: '',
+            isNotRootAdd: false,
+            disableResType: false,
             resourceForm: {
                 id: Date.now().toString(),
                 parentId: -1,
@@ -210,6 +212,8 @@ export default {
         visible(val) {
             if (val) {
                 this.$refs['resourceForm'].resetFields();
+                this.isNotRootAdd = (this.params.parentMenu && (this.params.parentMenu['id'] != 0));
+                this.disableResType = ((this.params.id !== -1) || (this.params.parentMenu['id'] != 0));
                 this.resourceForm = {
                     id: Date.now().toString(),
                     parentId: -1,
@@ -264,6 +268,7 @@ export default {
                     });
             }else {
                 this.resourceForm.parentName = this.params.parentMenu['resourceName'];
+                this.resourceForm.resourceType = this.params.functionType;
             }
         },
         onSubmit() {

@@ -2,7 +2,7 @@
   <!-- <div v-loading.fullscreen.lock="fullscreenLoading" element-loading-text="加载中, 请稍后..."></div> -->
   <div style="width:100%; height:100%">
     <el-row style="height: 60px;">
-      <el-menu theme="dark" class="el-menu-demo" mode="horizontal">
+      <el-menu background-color="#4D4D4D" text-color="#FFFFFF" active-text-color="#EE9A00" class="el-menu-demo" mode="horizontal">
         <div class="pull-left">
           <a class="navbar-brand">
             <i class="fa fa-leaf "></i>ZTE IT Admin</a>

@@ -15,7 +15,7 @@
             </el-row>
             <el-row>
                 <el-form-item :label="i18n['form_select_fallback_node']" prop="backNodeId">
-                    <el-autocomplete :props="{value: 'value', label: 'value'}" style="width:55rem" class="inline-input" v-model="backNodeName" :fetch-suggestions="querySearch" :placeholder="i18n['form_select_fallback_node']" @select="selectNode"></el-autocomplete>
+                    <el-autocomplete value-key="value" style="width:55rem" class="inline-input" v-model="backNodeName" :fetch-suggestions="querySearch" :placeholder="i18n['form_select_fallback_node']" @select="selectNode"></el-autocomplete>
                 </el-form-item>
             </el-row>
             <el-row>
@@ -29,7 +29,8 @@
                         <i class="iconfont alibaba-save"></i>
                         {{i18n['form_save']}}
                     </el-button>
-                    <el-button @click="onClose" icon="close">
+                    <el-button @click="onClose">
+                         <i class="el-icon-circle-close-outline"></i>
                         {{i18n['form_close']}}
                     </el-button>
                 </el-form-item>

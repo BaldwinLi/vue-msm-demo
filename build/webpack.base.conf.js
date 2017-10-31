@@ -19,22 +19,21 @@ module.exports = {
     path: config.build.assetsRoot,
     filename: '[name].js',
     publicPath: process.env.NODE_ENV === 'production' ?
-      config.build.assetsPublicPath :
-      config.dev.assetsPublicPath
+      config.build.assetsPublicPath : config.dev.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src')
+      '@': resolve('src'),
     }
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('common.js'),
     new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      _: 'lodash'
+      jQuery: "jquery",
+      $: "jquery",
+      _: "lodash"
     })
   ],
   module: {
@@ -76,8 +75,7 @@ module.exports = {
         test: /\.less$/,
         loader: 'less-loader',
         include: [resolve('src/skins')]
-      },
-
+      }
     ]
   }
 }

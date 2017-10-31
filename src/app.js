@@ -1,6 +1,6 @@
 import '@/skins/alibaba_font/iconfont.css'
 import '@/skins/css/bootstrap.css'
-import 'element-ui/lib/theme-default/index.css'
+import 'element-ui/lib/theme-chalk/index.css'
 import '@/common/components/libs'
 import installI18n from '@/common/data-i18n/initI18n'
 

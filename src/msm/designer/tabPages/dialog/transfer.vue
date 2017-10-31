@@ -31,7 +31,8 @@
                         <i class="iconfont alibaba-save"></i>
                         {{i18n['form_save']}}
                     </el-button>
-                    <el-button @click="onClose" icon="close">
+                    <el-button @click="onClose">
+                        <i class="el-icon-circle-close-outline"></i>
                         {{i18n['form_close']}}
                     </el-button>
                 </el-form-item>

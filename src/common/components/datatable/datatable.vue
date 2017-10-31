@@ -1,6 +1,6 @@
 <template>
     <div style="height: 100%; width: 100%;">
-        <el-menu theme="dark" style="height: 5.5rem" class="el-menu-demo" mode="horizontal">
+        <el-menu background-color="#616161" text-color="#FFFFFF" active-text-color="#EE9A00" style="height: 5.5rem" class="el-menu-demo" mode="horizontal">
             <div class="pull-left">
                 <p class="navbar-brand" style="color:#fff">
                     {{title}}
@@ -32,7 +32,7 @@
                 </el-button>
             </el-button-group>
         </el-menu>
-        <el-table :data="rows" border v-loading="startLoading" :element-loading-text="i18n['hard_loading']" style="width: 100%" :row-class-name="tableRowClassName">
+        <el-table :data="rows" border v-loading="startLoading" :element-loading-text="i18n['hard_loading']" style="width: 100%" :row-class-name="tableRowClassName" :header-cell-class-name="headerClass">
             <el-table-column header-align="center" v-for="(column, index) in columns" :key="index.toString()" :prop="getColumnProp(column)" :label="column.label" :width="column.width" :render-header="column.renderHeader">
                 <template scope="scope">
                     <el-button v-if="column.type==='hyperlink'" @click.native.prevent="column.on.click(scope.row)" type="text" size="small">
@@ -44,8 +44,8 @@
                     </el-tag>
                     <el-switch v-if="column.type==='switch'" 
                     v-model="scope.row[column.id]" 
-                    :on-value="column.valueMap && column.valueMap['onValue']"
-                    :off-value="column.valueMap && column.valueMap['offValue']"
+                    :active-value="column.valueMap && column.valueMap['onValue']"
+                    :inactive-value="column.valueMap && column.valueMap['offValue']"
                     @change="column.on['change'](scope.row)"
                     ></el-switch>
                     <el-row v-if="column.type==='operation'">
@@ -148,6 +148,10 @@ export default {
             default() {
                 console.log('refresh_callback is not assigned.');
             }
+        },
+        headerClass: {
+            type: String,
+            default: 'elHeaderClass'
         }
     },
     filters: {
@@ -249,3 +253,8 @@ export default {
      }
 }
 </script>
+<style>
+.elHeaderClass {
+    background: #EECFA1;
+}
+</style>

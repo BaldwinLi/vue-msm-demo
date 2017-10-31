@@ -101,7 +101,7 @@ export default {
                         lastUpdatedDate: '',
                         enableFlag: '',
                         orgId: -1,
-                        functionType: '',
+                        functionType: row.functionType,
                         parentMenu: {id: row.id, resourceName:row.functionName}
                     };
             else this.dialogParams = {

@@ -274,7 +274,7 @@ export default {
             },
             {
                 label: i18n['form_operate'],
-                width: '430',
+                width: '480',
                 type: 'operation',
                 groups: [
                     {

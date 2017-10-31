@@ -1,6 +1,6 @@
 <template>
     <div style="height: 100%; width: 100%;">
-        <button :id="uuid" v-if="type === 'button'" :class="buttonClass" role="iconpicker"></button>
+        <button :id="uuid" v-if="type === 'button'" :style="buttonStyle" :class="buttonClass" role="iconpicker"></button>
         <div :id="uuid" v-if="type === 'picker'" role="iconpicker"></div>
     </div>
 </template>
@@ -8,7 +8,7 @@
 <script>
 import 'bootstrap/dist/js/bootstrap';
 import './bootstrap-iconpicker-1.9.0/js/bootstrap-iconpicker-iconset-all';
-import './bootstrap-iconpicker-1.9.0/js/bootstrap-iconpicker.js';
+import './bootstrap-iconpicker-1.9.0/js/bootstrap-iconpicker';
 import { Lang } from '@/common/data-i18n/initI18n';
 
 export default {
@@ -31,6 +31,15 @@ export default {
         buttonClass: {
             type: String,
             default: 'btn btn-default'
+        },
+        buttonStyle: {
+            type: Object,
+            default() {
+                return {
+                    width: '95%',
+                    float: 'left'
+                }
+            }
         },
         options: {
             type: Object,
