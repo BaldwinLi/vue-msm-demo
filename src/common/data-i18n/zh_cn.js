@@ -500,4 +500,18 @@ export default {
   "please_enter_resourceName": "请填写资源名称",
   "please_enter_resourceValue": "请填写资源路径",
   "please_enter_iconValue": "请选择资源图标",
+  "role_list": "角色列表",
+  "add_role": "新增角色",
+  "edit_role": "编辑角色",
+  "role_code": "角色代码",
+  "role_name": "角色名称",
+  "role_category": "角色类型",
+  "sys_default": "系统默认",
+  "custom_define": "用户定义",
+  "please_enter_role_code": "请输入角色代码",
+  "please_enter_role_name": "请输入角色名称",
+  "please_select_role_type": "请选择角色类型",
+  "menu_grant": "菜单授权",
+  "service_grant": "服务授权",
+  "add_user": "添加用户"
 }

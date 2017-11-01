@@ -499,4 +499,16 @@ export default {
     "please_enter_resourceName": "Please enter resource name",
     "please_enter_resourceValue": "Please enter resource value",
     "please_enter_iconValue": "Please enter resource icon",
+    "role_list": "Roles List",
+    "role_code": "Role Code",
+    "role_name": "Role Name",
+    "role_category": "Role Type",
+    "sys_default": "System Default",
+    "custom_define": "Custom",
+    "please_enter_role_code": "Please enter role code",
+    "please_enter_role_name": "Please enter role name",
+    "please_select_role_type": "Please enter role type",
+    "menu_grant": "Grant Menus",
+    "service_grant": "Grant Servie",
+    "add_user": "Add User"
 }

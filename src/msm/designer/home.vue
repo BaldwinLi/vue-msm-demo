@@ -78,6 +78,9 @@
           <div v-else-if="item.id==='8'">
             <resource-list></resource-list>
           </div>
+          <div v-else-if="item.id==='19'">
+            <role-config></role-config>
+          </div>
         </el-tab-pane>
       </el-tabs>
     </el-row>
@@ -91,6 +94,7 @@ import reviewList from './tabPages/myreviewmanlist/myreviewmanlist';
 import proreviewList from './tabPages/myproreview/myproreviewlist';
 import myPendingList from './tabPages/mypending/mypendinglist';
 import queryReviewList from './tabPages/queryreview/queryreviewlist';
+import roleConfig from './tabPages/roleconfig/roleconfig';
 import resourceList from './tabPages/resource/resourcelist';
 import { Lang } from '@/common/data-i18n/initI18n';
 import { mapState, mapGetters, mapMutations } from 'vuex';
@@ -104,7 +108,8 @@ export default {
     proreviewList,
     myPendingList,
     queryReviewList,
-    resourceList
+    resourceList,
+    roleConfig
   },
   data() {
     return {

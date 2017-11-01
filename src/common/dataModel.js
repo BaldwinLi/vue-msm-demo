@@ -76,3 +76,14 @@ export const FUNCTION_TYPE = [
     value: i18n['func_btn']
   }
 ]
+
+export const ROLE_TYPE = [
+  {
+    id: '0',
+    value: i18n['sys_default']
+  },
+  {
+    id: '1',
+    value: i18n['custom_define']
+  }
+]

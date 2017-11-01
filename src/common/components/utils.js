@@ -754,3 +754,29 @@ export const printTableData = (e, dt, callback, config = {
     }
   }, 250);
 };
+
+export const buildTreeData = (
+  arrayData = [], 
+  parentFieldName = 'parentId', 
+  idFieldName = 'id', 
+  childrenField = 'children', 
+  parentValue
+) => {
+  // debugger
+  if(!arrayData || arrayData.length === 0) return [];
+  let rootChildren = arrayData.filter(e=>{
+    return !!parentValue ? (
+      e[parentFieldName] === parentValue
+    ) : !arrayData.map(v=>v[idFieldName]).includes(e[parentFieldName]);
+  });
+  let notRootChildren = arrayData.filter(e=>{
+    return !!parentValue ? (
+      e[parentFieldName] !== parentValue
+    ) : arrayData.map(v=>v[idFieldName]).includes(e[parentFieldName]);
+  });
+
+  return rootChildren.map(v => {
+    v[childrenField] = buildTreeData(notRootChildren, parentFieldName, idFieldName, childrenField, v[idFieldName]);
+    return v;
+  });
+}

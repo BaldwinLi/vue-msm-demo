@@ -2,10 +2,16 @@ import axios from 'axios';
 import { appConsts } from '@/app';
 
 window.Vue.http = window.Vue.prototype.$http = axios;
-
+const NO_HEADER_URLS = [
+  'sysman/Resource/getMenus.serv'
+]
 export default (user) => {
     window.Vue.prototype.$http.interceptors.request.use(
       config => {
+        if(NO_HEADER_URLS.every(e=>{
+           return _.endsWith(config.url, e)
+        })) return config;
+
         config.headers.common[appConsts['HTTP_HEADER_X_AUTH_VALUE']] = user.token;
         config.headers.common[appConsts['HTTP_HEADER_X_ORG_ID']] = user.orgId;
         config.headers.common[appConsts['HTTP_HEADER_X_LANG_ID']] = appConsts['NeedLangId']?appConsts[sessionStorage.getItem('locale')||'ZH_CN'].langId:2052;

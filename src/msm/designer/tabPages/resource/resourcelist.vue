@@ -51,7 +51,6 @@ export default {
             isEditDialog: false,
             pageSize: 10,
             totalCount: 0,
-            currentPage: 1,
             columns: [],
             data: [],
             i18n: Lang(),
@@ -65,7 +64,7 @@ export default {
         ])
     },
     methods: {
-        refreshResourceList(page, size){
+        refreshResourceList(){
             const scope = this;
             this.startLoading = true;
             this.$http.post(`${this.appContextPath}sysman/Function/getFunctionList.serv`,
@@ -127,7 +126,7 @@ export default {
         resourceDialogClose(str) {
             this.resourceDialogVisible = false;
             if (str === 'success') {
-                this.refreshResourceList(this.currentPage, this.pageSize);
+                this.refreshResourceList();
                 this.$message({
                     message: this.i18n['operate_success'],
                     type: 'success'
@@ -215,7 +214,7 @@ export default {
                                 });
                             }
                         }, error => {
-                        scope.startLoading = false;
+                            scope.startLoading = false;
                         });
                     }
                 }
@@ -246,7 +245,7 @@ export default {
                 ]
             }
         ];
-        this.refreshResourceList(this.CurrentPage, this.pageSize);
+        this.refreshResourceList();
     }
 
 }

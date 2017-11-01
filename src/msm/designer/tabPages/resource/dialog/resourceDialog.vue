@@ -276,25 +276,25 @@ export default {
             this.$refs['resourceForm'].validate((valid) => {
                 if (valid) {
                     scope.startLoading = true;
-                    if(this.isEditDialog){
-                        delete this.resourceForm.createdBy;
-                        delete this.resourceForm.createdDate;
-                        this.resourceForm.lastUpdatedBy = this.loginUser.account;
-                        this.resourceForm.lastUpdatedDate = (new Date()).format("yyyy-MM-dd hh:mm:ss");
+                    if(scope.isEditDialog){
+                        delete scope.resourceForm.createdBy;
+                        delete scope.resourceForm.createdDate;
+                        scope.resourceForm.lastUpdatedBy = scope.loginUser.account;
+                        scope.resourceForm.lastUpdatedDate = (new Date()).format("yyyy-MM-dd hh:mm:ss");
                     }else{
-                        delete this.resourceForm.lastUpdatedBy;
-                        delete this.resourceForm.lastUpdatedDate;
-                        this.resourceForm.createdBy = this.loginUser.account;
-                        this.resourceForm.createdDate = (new Date()).format("yyyy-MM-dd hh:mm:ss");
-                        this.resourceForm.parentId = '0';
-                        this.resourceForm.parentMenu = this.params.parentMenu;
-                        if(this.params.parentMenu && this.params.parentMenu['id']!=0) {
-                            this.resourceForm.resourceCode = this.params.functionCode + this.resourceForm.resourceCode;
+                        delete scope.resourceForm.lastUpdatedBy;
+                        delete scope.resourceForm.lastUpdatedDate;
+                        scope.resourceForm.createdBy = scope.loginUser.account;
+                        scope.resourceForm.createdDate = (new Date()).format("yyyy-MM-dd hh:mm:ss");
+                        scope.resourceForm.parentId = '0';
+                        scope.resourceForm.parentMenu = scope.params.parentMenu;
+                        if(scope.params.parentMenu && scope.params.parentMenu['id']!=0) {
+                            scope.resourceForm.resourceCode = scope.params.functionCode + scope.resourceForm.resourceCode;
                         }
                     }
-                    this.resourceForm.orgId = this.loginUser.orgId;
-                    scope.$http.post(`${scope.appContextPath}sysman/Resource/${this.isEditDialog?'update':'insert'}.serv`,
-                        this.resourceForm
+                    scope.resourceForm.orgId = scope.loginUser.orgId;
+                    scope.$http.post(`${scope.appContextPath}sysman/Resource/${scope.isEditDialog?'update':'insert'}.serv`,
+                        scope.resourceForm
                     ).then(success => {
                         success && scope.close('success');
                         scope.startLoading = false;
