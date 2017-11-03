@@ -510,5 +510,22 @@ export default {
     "please_select_role_type": "Please enter role type",
     "menu_grant": "Grant Menus",
     "service_grant": "Grant Servie",
-    "add_user": "Add User"
+    "add_user": "Add User",
+    "please_enter_user_condition": "Please enter filter users condition",
+    "user_list": "User List",
+    "selected_user_list": "Selected User",
+    "no_data": "No data",
+    "add_dictionary": "Add Dictionary",
+    "edit_dictionary": "Edit Dictionary",
+    "dictionary_id":　"ID",
+    "dictionary_list": "Dictionary List",
+    "parent_dictionary_id":　"Parent ID",
+    "dict_code": "Dict Code",
+    "dict_name": "Dict Name",
+    "dict_value": "Dict Value",
+    "view_level": "View Level",
+    "order_by": "Order",
+    "effective_date": "Effective Date",
+    "expiration_date": "Expiration Date",
+    "back_to_parent_dic_list": "Back to upper list"
 }

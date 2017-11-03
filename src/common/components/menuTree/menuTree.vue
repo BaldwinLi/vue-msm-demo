@@ -30,6 +30,7 @@ import { Lang } from '@/common/data-i18n/initI18n';
 import { buildTreeData } from '@/common/components/utils';
 
 export default {
+    name: 'menu-tree',
     data() {
         return {
             startLoading: false,

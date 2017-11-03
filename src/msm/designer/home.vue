@@ -23,12 +23,12 @@
             </el-menu-item>
           </el-submenu>
         </el-submenu>
-        <el-dropdown @command="handleCommand" trigger="click" style="cursor: pointer; padding: 2px;width:12%; float: right;background: #62A8D1;color: #FFF;">
+        <el-dropdown @command="handleCommand" trigger="click" style="cursor: pointer; padding: 2px;width:14%; height:60px; float: right;background: #62A8D1;color: #FFF;">
           <span class="el-dropdown-link">
-            <img class="nav-user-photo" src="../../skins/avatars/user.jpg"> {{i18n["welcome"]}} {{userInfo.name}}<br> {{orgList[0]&&orgList[0].dictName||''}}
+            <img class="nav-user-photo" src=""> {{i18n["welcome"]}} {{userInfo.name}}<br> {{orgList[0]&&orgList[0].dictName||''}}
             <i class="el-icon-caret-bottom el-icon--right"></i>
           </span>
-          <el-dropdown-menu slot="dropdown" style="width: 12%;">
+          <el-dropdown-menu slot="dropdown" style="width: 14%;">
             <el-dropdown-item disabled>
               <i class='ace-icon fa fa-cogs'></i>{{orgList.length}}</el-dropdown-item>
             <el-dropdown-item v-for="org in orgList" :key="org.dictCode" :command="org.dictCode">
@@ -66,6 +66,9 @@
           <div v-else-if="item.id==='4'">
             <review-list></review-list>
           </div>
+          <div v-else-if="item.id==='8'">
+            <resource-list></resource-list>
+          </div>
           <div v-else-if="item.id==='12'">
             <proreview-list></proreview-list>
           </div>
@@ -75,8 +78,8 @@
           <div v-else-if="item.id==='14'">
             <query-review-list></query-review-list>
           </div>
-          <div v-else-if="item.id==='8'">
-            <resource-list></resource-list>
+          <div v-else-if="item.id==='18'">
+            <dictionary-list></dictionary-list>
           </div>
           <div v-else-if="item.id==='19'">
             <role-config></role-config>
@@ -96,6 +99,7 @@ import myPendingList from './tabPages/mypending/mypendinglist';
 import queryReviewList from './tabPages/queryreview/queryreviewlist';
 import roleConfig from './tabPages/roleconfig/roleconfig';
 import resourceList from './tabPages/resource/resourcelist';
+import dictionaryList from './tabPages/dictionary/dictionarylist';
 import { Lang } from '@/common/data-i18n/initI18n';
 import { mapState, mapGetters, mapMutations } from 'vuex';
 
@@ -109,7 +113,8 @@ export default {
     myPendingList,
     queryReviewList,
     resourceList,
-    roleConfig
+    roleConfig,
+    dictionaryList
   },
   data() {
     return {
@@ -230,7 +235,7 @@ export default {
           success => {
             if (success) {
               scope.menus = success.data.bo.map(v=>{
-                v.menus = v.menus.filter(e=>!['10743'].includes(e.id));
+                v.menus = v.menus.filter(e=>!['10743', '7', '10663'].includes(e.id));
                 return v;
               }).filter((e) => !['17', '10903'].includes(e.id));
               loading.close();

@@ -87,3 +87,14 @@ export const ROLE_TYPE = [
     value: i18n['custom_define']
   }
 ]
+
+export const VIE_LEVEL = [
+  {
+    id: '1',
+    value: i18n['level_1']
+  },
+  {
+    id: '1',
+    value: i18n['level_2']
+  },
+]

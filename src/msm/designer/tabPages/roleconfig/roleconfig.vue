@@ -30,6 +30,18 @@
         <el-dialog ref="rolePrivlegeDialog" :title="roleDialogTitle" :visible.sync="rolePrivlegeDialogVisible">
             <menu-tree :id="dialogParams.id" :resourceType="dialogParams.resourceType" :visible.sync="rolePrivlegeDialogVisible" :close="rolePrivlegeDialogClose"></menu-tree>
         </el-dialog>
+        <el-dialog ref="dataTransferDialog" :title="roleDialogTitle" :visible.sync="dataTransferDialogVisible">
+            <data-transfer
+            :placeholder="i18n['please_enter_user_condition']"
+            leftQueryUrl="sysman/User/getPage.serv"
+            rightQueryUrl="sysman/User/getRoleUserList.serv"
+            saveUrl="sysman/UserRole/insertUserList.serv"
+            :leftTitle="i18n['user_list']"
+            :rightTitle="i18n['selected_user_list']"
+            :params="dialogParams" 
+            :visible.sync="dataTransferDialogVisible" 
+            :close="dataTransferDialogClose"></data-transfer>
+        </el-dialog>
     </div>
 </template>
 
@@ -37,7 +49,8 @@
 import { mapGetters } from 'vuex';
 import zteDataTable from '@/common/components/datatable/datatable';
 import roleDialog from './dialog/roleDialog';
-import menuTree from '../dialog/menuTree';
+import menuTree from '@/common/components/menuTree/menuTree';
+import dataTransfer from '@/common/components/dataAsyncTransfer/dataTransfer';
 import { Lang } from '@/common/data-i18n/initI18n';
 
 export default {
@@ -45,13 +58,15 @@ export default {
     components: {
         zteDataTable,
         roleDialog,
-        menuTree
+        menuTree,
+        dataTransfer
     },
     data() {
         return {
             startLoading: false,
             roleDialogVisible: false,
             rolePrivlegeDialogVisible: false,
+            dataTransferDialogVisible: false,
             tableTitle: Lang()['role_list'],
             dialogParams: {},
             pageSize: 10,
@@ -112,6 +127,16 @@ export default {
         },
         rolePrivlegeDialogClose(str){
             this.rolePrivlegeDialogVisible = false;
+            if (str === 'success') {
+                this.refreshRoleList();
+                this.$message({
+                    message: this.i18n['operate_success'],
+                    type: 'success'
+                });
+            }
+        },
+        dataTransferDialogClose(str){
+            this.dataTransferDialogVisible = false;
             if (str === 'success') {
                 this.refreshRoleList();
                 this.$message({
@@ -218,7 +243,7 @@ export default {
             },
             {
                 label:this. i18n['form_operate'],
-                width: '520',
+                width: '560',
                 type: 'operation',
                 groups: [
                     {
@@ -264,12 +289,9 @@ export default {
                         label: this.i18n['add_user'],
                         icon: 'el-icon-circle-plus-outline',
                         on(row) {
-                            // scope.dialogParams = {
-                            //     id: row.id,
-                            //     resourceType: '\'2\''
-                            // };
-                            // scope.roleDialogTitle = scope.i18n['service_grant']
-                            // scope.rolePrivlegeDialogVisible = true;
+                            scope.dialogParams = row;
+                            scope.roleDialogTitle = scope.i18n['add_user']
+                            scope.dataTransferDialogVisible = true;
                         }
                     },
                     {

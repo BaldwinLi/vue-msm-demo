@@ -767,12 +767,15 @@ export const buildTreeData = (
   let rootChildren = arrayData.filter(e=>{
     return !!parentValue ? (
       e[parentFieldName] === parentValue
-    ) : !arrayData.map(v=>v[idFieldName]).includes(e[parentFieldName]);
+    ) : arrayData.every(v => (v[idFieldName] !== e[parentFieldName]))
+    // !arrayData.map(v=>v[idFieldName]).includes(e[parentFieldName]);
   });
   let notRootChildren = arrayData.filter(e=>{
-    return !!parentValue ? (
-      e[parentFieldName] !== parentValue
-    ) : arrayData.map(v=>v[idFieldName]).includes(e[parentFieldName]);
+    return rootChildren.every(el=>(el.id!==e.id));
+    // return !!parentValue ? (
+    //   e[parentFieldName] !== parentValue
+    // ) : arrayData.every(v => (v[idFieldName] === e[parentFieldName]))
+    // arrayData.map(v=>v[idFieldName]).includes(e[parentFieldName]);
   });
 
   return rootChildren.map(v => {
