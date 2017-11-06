@@ -88,7 +88,7 @@ export const ROLE_TYPE = [
   }
 ]
 
-export const VIE_LEVEL = [
+export const VIEW_LEVEL = [
   {
     id: '1',
     value: i18n['level_1']

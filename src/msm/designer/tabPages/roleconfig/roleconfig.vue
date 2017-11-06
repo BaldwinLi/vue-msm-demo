@@ -28,7 +28,7 @@
             <role-dialog :params="dialogParams" :visible.sync="roleDialogVisible" :close="roleDialogClose"></role-dialog>
         </el-dialog>
         <el-dialog ref="rolePrivlegeDialog" :title="roleDialogTitle" :visible.sync="rolePrivlegeDialogVisible">
-            <menu-tree :id="dialogParams.id" :resourceType="dialogParams.resourceType" :visible.sync="rolePrivlegeDialogVisible" :close="rolePrivlegeDialogClose"></menu-tree>
+            <menu-tree :url="dialogParams.url" :params="dialogParams.params" :visible.sync="rolePrivlegeDialogVisible" :close="rolePrivlegeDialogClose"></menu-tree>
         </el-dialog>
         <el-dialog ref="dataTransferDialog" :title="roleDialogTitle" :visible.sync="dataTransferDialogVisible">
             <data-transfer
@@ -262,8 +262,11 @@ export default {
                         icon: 'el-icon-setting',
                         on(row) {
                             scope.dialogParams = {
-                                id: row.id,
-                                resourceType: '\'0\', \'1\''
+                                params: {
+                                    id: row.id,
+                                    resourceType: '\'0\', \'1\'',
+                                },
+                                url: `${scope.appContextPath}sysman/Resource/getMenus.serv`
                             };
                             scope.roleDialogTitle = scope.i18n['menu_grant'];
                             scope.rolePrivlegeDialogVisible = true;
@@ -276,8 +279,11 @@ export default {
                         icon: 'el-icon-setting',
                         on(row) {
                             scope.dialogParams = {
-                                id: row.id,
-                                resourceType: '\'2\''
+                                params: {
+                                    id: row.id,
+                                    resourceType: '\'2\'',
+                                },
+                                url: `${scope.appContextPath}sysman/Resource/getMenus.serv`
                             };
                             scope.roleDialogTitle = scope.i18n['service_grant']
                             scope.rolePrivlegeDialogVisible = true;
@@ -297,7 +303,7 @@ export default {
                     {
                         type: 'button',
                         color: 'danger',
-                        icon: 'el-icon-circle-close',
+                        icon: 'iconfont alibaba-delete',
                         label: this.i18n['delete'],
                         on(row) {
                             scope.deleteRole(row);

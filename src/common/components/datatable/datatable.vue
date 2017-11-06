@@ -32,8 +32,8 @@
                 </el-button>
             </el-button-group>
         </el-menu>
-        <el-table :data="rows" border v-loading="startLoading" :element-loading-text="i18n['hard_loading']" style="width: 100%" :row-class-name="tableRowClassName" :header-cell-class-name="headerClass">
-            <el-table-column header-align="center" v-for="(column, index) in columns" :key="index.toString()" :prop="getColumnProp(column)" :label="column.label" :width="column.width" :render-header="column.renderHeader">
+        <el-table :data="rows" border v-loading="startLoading" :element-loading-text="i18n['hard_loading']" style="width: 100%" :row-class-name="tableRowClassName" :header-cell-class-name="headerClass" :default-sort="defaultSort">
+            <el-table-column header-align="center" v-for="(column, index) in columns" :key="index.toString()" :prop="getColumnProp(column)" :label="column.label" :width="column.width" :render-header="column.renderHeader" :sortable="column.sortable?column.sortable:false">
                 <template scope="scope">
                     <el-button v-if="column.type==='hyperlink'" @click.native.prevent="column.on.click(scope.row)" type="text" size="small">
                         {{scope.row[column.id]}}
@@ -96,6 +96,12 @@ export default {
             type: Array,
             default() {
                 return [];
+            }
+        },
+        defaultSort: {
+            type: Object,
+            default() {
+                return {}
             }
         },
         buttonGroup: {

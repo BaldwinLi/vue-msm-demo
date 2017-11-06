@@ -43,13 +43,18 @@ export default {
         }
     },
     props: {
-        id: {
-            type: String | Number,
-            default: -1
+        params: {
+            type: Object,
+            default() {
+                return {
+                    id: -1,
+                    resourceType: -1
+                }
+            }
         },
-        resourceType: {
-            type: String | Number,
-            default: -1
+        url: {
+            type: String,
+            default: ''
         },
         visible: {
             type: Boolean,
@@ -80,12 +85,13 @@ export default {
         refreshTreeMenu() {
             const scope = this;
             this.startLoading = true;
-            this.$http.post(`${this.appContextPath}sysman/Resource/getMenus.serv`,
+            const bo = {};
+            for (const i in this.params) {
+                bo[i] = this.params[i];
+            }
+            this.$http.post(this.url,
                 {
-                    bo: {
-                            id: this.id, 
-                            resourceType: this.resourceType
-                        },
+                    bo,
                     sort:"",
                     order:"desc"}
             ).then(
@@ -100,7 +106,7 @@ export default {
         saveSelect() {
             const ids = this.$refs.tree.getCheckedKeys().join(',');
             const scope = this;
-            const resType = this.resourceType.split(',').map(v=>v.replace(/^\s*|\s*$/g, '').replace(/^\'*|\'*$/g, '')).join(',');
+            const resType = this.params.resourceType.split(',').map(v=>v.replace(/^\s*|\s*$/g, '').replace(/^\'*|\'*$/g, '')).join(',');
             scope.startLoading = true;
             this.$http.post(`
                 ${this.appContextPath}sysman/RoleResource/save.serv?ids=${ids}&type=${resType}
@@ -108,7 +114,7 @@ export default {
                 {
                     id: Math.floor(Math.random() * 10000) + 1,
                     resourceId: null,
-                    roleId: this.id,
+                    roleId: this.params.id,
                     orgId: this.loginUser.orgId,
                     enableFlag:"Y",
                     createdBy: this.loginUser.account,

@@ -33,7 +33,7 @@
             </el-col>
         </el-row>
         <el-dialog ref="resourceDialog" :title="dictionaryTitle" :visible.sync="dictionaryDialogVisible">
-            <resource-dialog :params="dialogParams" :visible.sync="dictionaryDialogVisible" :close="dictionaryDialogClose" :isEditDialog="isEditDialog"></resource-dialog>
+            <dictionary-dialog :params="dialogParams" :parentId="parentId" :visible.sync="dictionaryDialogVisible" :close="dictionaryDialogClose" :isEditDialog="isEditDialog"></dictionary-dialog>
         </el-dialog>
     </div>
 </template>
@@ -41,19 +41,20 @@
 <script>
 import { mapGetters } from 'vuex';
 import zteDataTable from '@/common/components/datatable/datatable';
-import resourceDialog from './dialog/dictionaryDialog';
+import dictionaryDialog from './dialog/dictionaryDialog';
 import { Lang } from '@/common/data-i18n/initI18n';
 
 export default {
     name: 'resource-list',
     components: {
         zteDataTable,
-        resourceDialog
+        dictionaryDialog
     },
     data() {
         return {
             startLoading: false,
             upperParent: 0,
+            parentId: 0,
             dictionaryDialogVisible: false,
             tableTitle: Lang()['dictionary_list'],
             dialogParams: {},
@@ -76,6 +77,7 @@ export default {
         refreshDictionaryList(parent){
             const scope = this;
             this.startLoading = true;
+            this.parentId = parent || 0;
             this.$http.post(`${this.appContextPath}sysman/Dictionary/getList.serv`,
                 {
                     bo:{ parentId: parent||0 },
@@ -99,7 +101,7 @@ export default {
             if(isEdit) this.dialogParams = row;
             else this.dialogParams = {
                         id: -1,
-                        parentId: -1,
+                        parentId: this.parentId,
                         dictCode: '',
                         dictName: row.functionCode,
                         dictValue: '',
@@ -117,6 +119,7 @@ export default {
                         remark: '',
                     };
             this.isEditDialog = !!isEdit;
+
             this.dictionaryDialogVisible = true;
             this.dictionaryTitle = this.i18n[isEdit? 'edit_dictionary' : 'add_dictionary'];
         },
@@ -160,7 +163,8 @@ export default {
             {
                 id: 'dictValue',
                 label: this.i18n['dict_value'],
-                type: 'tag'
+                type: 'tag',
+                sortable: true
             },
             {
                 id: 'levelName',
@@ -196,7 +200,7 @@ export default {
                             if (success) {
                                 scope.startLoading = false;
                                 scope.$message({
-                                    message: `${scope.i18n['resource']} ${row.id} ${scope.i18n[row.enableFlag === 'Y'? 'turned_on' : 'turned_off']}`,
+                                    message: `${scope.i18n['dictionary_id']} ${row.id} ${scope.i18n[row.enableFlag === 'Y'? 'turned_on' : 'turned_off']}`,
                                     type: row.enableFlag === 'Y'? 'success' : 'error'
                                 });
                             }
@@ -223,7 +227,7 @@ export default {
                     {
                         type: 'button',
                         color: 'danger',
-                        icon: 'el-icon-circle-close',
+                        icon: 'iconfont alibaba-delete',
                         label: this.i18n['delete'],
                         on(row) {
                             scope.$confirm(

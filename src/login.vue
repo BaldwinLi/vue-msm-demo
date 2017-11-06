@@ -32,14 +32,14 @@
                                                     <label class="block clearfix">
                                                         <span class="block input-icon input-icon-right">
                                                             <input v-model="account" type="text" class="form-control" :placeholder="i18n['login_hr_account']" @keydown.enter="doLogin" />
-                                                            <i class="ace-icon fa fa-user"></i>
+                                                            <i class="ace-icon iconfont alibaba-account"></i>
                                                         </span>
                                                     </label>
 
                                                     <label class="block clearfix">
                                                         <span class="block input-icon input-icon-right">
                                                             <input v-model="pwd" type="password" class="form-control" :placeholder="i18n['login_hr_password']" @keydown.enter="doLogin" />
-                                                            <i class="ace-icon fa fa-lock"></i>
+                                                            <i class="ace-icon iconfont alibaba-password"></i>
                                                         </span>
                                                     </label>
 

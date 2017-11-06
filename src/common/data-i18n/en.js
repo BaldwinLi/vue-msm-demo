@@ -527,5 +527,18 @@ export default {
     "order_by": "Order",
     "effective_date": "Effective Date",
     "expiration_date": "Expiration Date",
-    "back_to_parent_dic_list": "Back to upper list"
+    "back_to_parent_dic_list": "Back to upper list",
+    "level_1": "Level One",
+    "level_2": "Level Two",
+    "to": "to",
+    "effect_date_range": "Effective Range",
+    "please_enter_dictCode": "Please enter dict code",
+    "please_enter_dictName": "Please enter dict name",
+    "please_enter_dictValue": "Please enter dict value",
+    "please_enter_viewLevel": "Please select view level",
+    "please_enter_dateRange": "Please select effect date range",
+    "please_enter_orderBy": "Please enter order",
+    "last_one_week": "Last One Week",
+    "last_one_month": "Last One Month",
+    "last_three_months": "LastThree Months"
 }

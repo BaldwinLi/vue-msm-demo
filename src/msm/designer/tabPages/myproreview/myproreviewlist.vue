@@ -314,7 +314,7 @@ export default {
                     {
                         type: 'button',
                         color: 'danger',
-                        icon: 'el-icon-circle-close',
+                        icon: 'iconfont alibaba-delete',
                         label: i18n['delete'],
                         isShow(row) {
                             return row.reviewStatus === '00'

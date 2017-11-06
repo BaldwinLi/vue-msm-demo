@@ -532,5 +532,16 @@ export default {
   "expiration_date": "失效日期",
   "back_to_parent_dic_list": "返回上一级数据字典列表",
   "level_1": "一级",
-  "level_2": "二级"
+  "level_2": "二级",
+  "to": "至",
+  "effect_date_range": "有效区间",
+  "please_enter_dictCode": "请输入字典代码",
+  "please_enter_dictName": "请输入字典名称",
+  "please_enter_dictValue": "请输入字典值",
+  "please_enter_viewLevel": "请输入选择访问级别",
+  "please_enter_dateRange": "请选择有效时间区间",
+  "please_enter_orderBy": "请输入顺序",
+  "last_one_week": "最近一周",
+  "last_one_month": "最近一个月",
+  "last_three_months": "最近三个月"
 }

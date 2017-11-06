@@ -41,6 +41,7 @@ export default {
             rightData: [],
             rightDataKeys: [],
             leftCondition: '',
+            rightCondition: '',
             defaultProps: {
                 key: 'account',
                 label: 'name'
@@ -131,12 +132,12 @@ export default {
     },
     methods: {
         filterData(condition, item){
-            if(condition !== this.leftCondition) {
+            if(condition !== this.leftCondition && !this.rightDataKeys.includes(item.account)) {
                 this.asyncQueryUser(condition);
                 this.leftCondition = condition;
-            }
-            return true;
-            // item.account.indexOf(condition) > -1 || item.name.indexOf(condition) > -1;
+            } else if (condition !== this.rightCondition) {
+                return item.account.indexOf(condition) > -1 || item.name.indexOf(condition) > -1;
+            } else return true;
         },
         queryUserByStr(str) {
             const scope = this;
