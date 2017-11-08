@@ -98,3 +98,48 @@ export const VIEW_LEVEL = [
     value: i18n['level_2']
   },
 ]
+
+export const DATA_SOURCE_STATUS = [
+  {
+    id: '0',
+    value: i18n['draft']
+  },
+  {
+    id: '1',
+    value: i18n['published']
+  }
+]
+
+export const DATA_SOURCE_CALL_TYPE = [
+  {
+    id: '0',
+    value: i18n['synchronization']
+  },
+  {
+    id: '1',
+    value: i18n['asynchronization']
+  }
+]
+
+export const DATA_SOURCE_TYPE = [
+  {
+    id: '0',
+    value: 'webservice'
+  },
+  {
+    id: '1',
+    value: 'HTTP URL'
+  },
+  {
+    id: '2',
+    value: 'SQL'
+  },
+  {
+    id: '3',
+    value: i18n['form_form']
+  },
+  {
+    id: '4',
+    value: `Java${i18n['class']}`
+  }
+]

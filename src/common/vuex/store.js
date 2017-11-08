@@ -4,6 +4,12 @@ import {
 } from '@/app';
 import initHttp from '@/common/http';
 
+const proxyedHostNames = [
+  'localhost',
+  '127.0.0.1',
+  '10.17.225.136'
+];
+
 window.Vue.use(Vuex);
 
 const userInfo = JSON.parse(sessionStorage.getItem('user'));
@@ -69,11 +75,11 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    isLocal: () => (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? true : false,
-    appContextPath: () => ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? true : false) ? `${window.location.origin}/dev_api/` : (window.location.origin + '/'),
+    isLocal: () => proxyedHostNames.includes(window.location.hostname),
+    appContextPath: () => proxyedHostNames.includes(window.location.hostname) ? `${window.location.origin}/dev_api/` : (window.location.origin + '/'),
     appConsts: () => appConsts,
     loginUser: (state) => (state.userInfo),
     loginUserDept: (state) => (state.userDept),
-    loginUserOrgList: (state)=>(state.userOrg)
+    loginUserOrgList: (state) => (state.userOrg)
   }
 });

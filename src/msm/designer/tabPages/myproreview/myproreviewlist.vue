@@ -37,8 +37,8 @@
                         <el-col :span="6">
                             <el-form-item :label="i18n['form_review_type']" prop="approveType">
                                 <el-col :span="20">
-                                    <el-select v-model="myproreviewForm.approveType" :placeholder="i18n['please_select']">
-                                        <el-option :label="i18n['please_select']" value=""></el-option>
+                                    <el-select v-model="myproreviewForm.approveType" clearable :placeholder="i18n['please_select']">
+                                        <!-- <el-option :label="i18n['please_select']" value=""></el-option> -->
                                         <el-option v-for="(item, index) in approveTypes" :key="index" :label="item.value" :value="item.id"></el-option>
                                     </el-select>
                                 </el-col>
@@ -47,8 +47,8 @@
                         <el-col :span="6">
                             <el-form-item :label="i18n['form_review_status']" prop="reviewStatus">
                                 <el-col :span="20">
-                                    <el-select v-model="myproreviewForm.reviewStatus" :placeholder="i18n['please_select']">
-                                        <el-option :label="i18n['please_select']" value=""></el-option>
+                                    <el-select v-model="myproreviewForm.reviewStatus" clearable :placeholder="i18n['please_select']">
+                                        <!-- <el-option :label="i18n['please_select']" value=""></el-option> -->
                                         <el-option v-for="(item, index) in reviewStatuses" :key="index" :label="item.value" :value="item.id"></el-option>
                                     </el-select>
                                 </el-col>
@@ -57,8 +57,8 @@
                         <el-col :span="6">
                             <el-form-item :label="i18n['form_review_result']" prop="reviewResult">
                                 <el-col :span="20">
-                                    <el-select v-model="myproreviewForm.reviewResult" :placeholder="i18n['please_select']">
-                                        <el-option :label="i18n['please_select']" value=""></el-option>
+                                    <el-select v-model="myproreviewForm.reviewResult" clearable :placeholder="i18n['please_select']">
+                                        <!-- <el-option :label="i18n['please_select']" value=""></el-option> -->
                                         <el-option v-for="(item, index) in reviewResults" :key="index" :label="item.value" :value="item.id"></el-option>
                                     </el-select>
                                 </el-col>
@@ -67,8 +67,8 @@
                         <el-col :span="6">
                             <el-form-item :label="i18n['form_search_type']" prop="templateCode">
                                 <el-col :span="20">
-                                    <el-select v-model="myproreviewForm.templateCode" :placeholder="i18n['please_select']">
-                                        <el-option :label="i18n['please_select']" value=""></el-option>
+                                    <el-select v-model="myproreviewForm.templateCode" clearable :placeholder="i18n['please_select']">
+                                        <!-- <el-option :label="i18n['please_select']" value=""></el-option> -->
                                         <el-option v-for="(item, index) in templates" :key="index" :label="item.templateName" :value="item.templateCode"></el-option>
                                     </el-select>
                                 </el-col>
@@ -332,7 +332,6 @@ export default {
                             return row.reviewStatus !== '00'
                         },
                         on: ((row) => {
-                            debugger
                             const loading = this.$loading({
                                 fullscreen: true,
                                 text: this.i18n['hard_loading']

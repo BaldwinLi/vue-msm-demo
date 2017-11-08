@@ -11,7 +11,8 @@
             :render-content="renderFunc"
             :filter-placeholder="placeholder"
             :data="leftData"
-            :props="defaultProps">
+            :props="defaultProps"
+            @change="changeRightData">
     </el-transfer>
     </el-row>
     <el-row :gutter="10">
@@ -153,7 +154,7 @@ export default {
                     order:'desc'
                 }
             ).then(
-                success => {
+                success => {    
                     if(success.data && success.data.bo && success.data.bo.rows) {
                         scope.leftData = success.data.bo.rows
                         .filter(e=>(!scope.rightDataKeys.includes(e.account))).concat(scope.rightData);
@@ -217,7 +218,14 @@ export default {
         },
         asyncQueryUser:  _.debounce(function (str) {
             this.queryUserByStr(str);
-        }, 100)
+        }, 100),
+        changeRightData(value, side, checked) {
+            if(side === 'right') {
+                this.rightData = this.rightData.concat(this.leftData.filter(e=>(checked.includes(e.account))));
+            }else if(side === 'left'){
+                this.leftData = this.leftData.concat(this.rightData.filter(e=>(checked.includes(e.account))));
+            }
+        }
     },
     mounted() {
         this.initData()

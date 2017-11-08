@@ -165,7 +165,7 @@ export default {
     },
     watch: {
         data(newData) {
-            if (this.staticPagination) this.refreshTableData(this.currentPage, this.pageSize);
+            if (this.staticPagination) this.refreshTableData(this.page, this.size);
             else this.rows = newData || [];
         },
         currentPage(newPage) {
@@ -189,19 +189,19 @@ export default {
         handleSizeChange(size) {
             this.size = size;
             if (this.staticPagination)
-                this.refreshTableData(this.currentPage, size);
+                this.refreshTableData(this.page, size);
             else this.$emit('pageChange', {
-                page: this.currentPage,
+                page: this.page,
                 size
             });
         },
         handleCurrentChange(page) {
             this.page = page;
             if (this.staticPagination)
-                this.refreshTableData(page, this.pageSize);
+                this.refreshTableData(this.page, this.size);
             else this.$emit('pageChange', {
-                page,
-                size: this.pageSize
+                page: this.page,
+                size: this.size
             });
         },
         refreshTableData(page, size, refresh) {
@@ -209,7 +209,7 @@ export default {
             else　this.rows = this.data.slice((page - 1) * size, (page - 1) * size + size)
         },
         refreshTable() {
-            this.refreshTableData(this.currentPage, this.pageSize, true)
+            this.refreshTableData(this.page, this.size, true)
         },
         copy(event) {
             copyToClipboard(event, {
@@ -256,6 +256,7 @@ export default {
     },
     mounted() {
         this.size = this.pageSize;
+        if (this.staticPagination) this.refreshTableData(this.page, this.size);
      }
 }
 </script>

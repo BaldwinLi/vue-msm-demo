@@ -103,7 +103,6 @@ export default {
             });
         },
         openRoleDialog(row) {
-            debugger
             if(!!row.id) this.dialogParams = row;
             else this.dialogParams = {
                 id: '',

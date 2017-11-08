@@ -762,7 +762,6 @@ export const buildTreeData = (
   childrenField = 'children', 
   parentValue
 ) => {
-  // debugger
   if(!arrayData || arrayData.length === 0) return [];
   let rootChildren = arrayData.filter(e=>{
     return !!parentValue ? (

@@ -241,7 +241,6 @@ export default {
     },
     watch: {
         visible(val) {
-            debugger
             if (val) {
                 this.$refs['dictionaryForm'].resetFields();
                 this.dictionaryForm = this.isEditDialog?this.params:
@@ -280,7 +279,6 @@ export default {
     },
     methods: {
         onSubmit() {
-            debugger;
             const scope = this;
             this.$refs['dictionaryForm'].validate((valid) => {
                 if (valid) {

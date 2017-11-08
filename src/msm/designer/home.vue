@@ -84,6 +84,9 @@
           <div v-else-if="item.id==='19'">
             <role-config></role-config>
           </div>
+          <div v-else-if="item.id==='10'">
+            <data-source></data-source>
+          </div>
         </el-tab-pane>
       </el-tabs>
     </el-row>
@@ -100,6 +103,7 @@ import queryReviewList from './tabPages/queryreview/queryreviewlist';
 import roleConfig from './tabPages/roleconfig/roleconfig';
 import resourceList from './tabPages/resource/resourcelist';
 import dictionaryList from './tabPages/dictionary/dictionarylist';
+import dataSource from './tabPages/datasource/datasource.vue'
 import { Lang } from '@/common/data-i18n/initI18n';
 import { mapState, mapGetters, mapMutations } from 'vuex';
 
@@ -114,7 +118,8 @@ export default {
     queryReviewList,
     resourceList,
     roleConfig,
-    dictionaryList
+    dictionaryList,
+    dataSource
   },
   data() {
     return {

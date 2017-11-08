@@ -452,6 +452,7 @@ export default {
     "not_available": "Not Available",
     "myreview_manage": "My Review",
     "draft": "draft",
+    "published": "published",
     "isreview": "review",
     "isover": "over",
     "ispause": "pause",
@@ -540,5 +541,14 @@ export default {
     "please_enter_orderBy": "Please enter order",
     "last_one_week": "Last One Week",
     "last_one_month": "Last One Month",
-    "last_three_months": "LastThree Months"
+    "last_three_months": "LastThree Months",
+    "data_source_nm": "Data Source Name",
+    "data_source_type": "Data Source Type",
+    "data_source_call_type": "Invoke Type",
+    "class": "Class",
+    "synchronization": "Synchronization",
+    "asynchronization": "Asynchronization",
+    "publish": "publish",
+    "view_detail": "Detail",
+    "confirm_publish_datasource": "Are you sure to publish this data source?"
 }

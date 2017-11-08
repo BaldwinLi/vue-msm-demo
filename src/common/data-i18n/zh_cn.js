@@ -453,6 +453,7 @@ export default {
   "not_available": "不可用",
   "myreview_manage": "我的评审",
   "draft": "草稿",
+  "published": "已发布",
   "isreview": "评审中",
   "isover": "已结束",
   "ispause": "暂停中",
@@ -543,5 +544,14 @@ export default {
   "please_enter_orderBy": "请输入顺序",
   "last_one_week": "最近一周",
   "last_one_month": "最近一个月",
-  "last_three_months": "最近三个月"
+  "last_three_months": "最近三个月",
+  "data_source_nm": "数据来源名称",
+  "data_source_type": "数据来源类型",
+  "data_source_call_type": "调用方式",
+  "class": "类",
+  "synchronization": "同步",
+  "asynchronization": "异步",
+  "publish": "发布",
+  "view_detail": "查看",
+  "confirm_publish_datasource": "确定发布该数据来源？"
 }
